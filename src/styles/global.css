@@ -56,6 +56,14 @@
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
+  /*
+   * Scrims. Same colour as --black at three opacities, used to darken the
+   * ASCII field behind text so the copy always wins.
+   */
+  --scrim-strong: rgba(26, 26, 26, 0.94);
+  --scrim-mid: rgba(26, 26, 26, 0.7);
+  --scrim-none: rgba(26, 26, 26, 0);
+
   color-scheme: dark;
 }
 

@@ -44,6 +44,14 @@ const here = Astro.url.pathname.replace(/\/$/, '');
     display: flex;
     align-items: flex-start;
     padding: var(--gutter);
+    /* Darkens the ASCII under the pills, fading out below them. */
+    background: linear-gradient(
+      180deg,
+      var(--scrim-strong) 0%,
+      var(--scrim-mid) 55%,
+      var(--scrim-none) 100%
+    );
+    padding-bottom: calc(var(--gutter) * 2);
   }
 
   .nav__pills {

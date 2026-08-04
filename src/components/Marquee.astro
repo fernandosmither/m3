@@ -47,13 +47,26 @@ const COPIES = 3;
   }
 
   .proof__label {
-    margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+    margin: 0 0 clamp(0.75rem, 2vw, 1.25rem);
     text-align: center;
     font-family: var(--font-mono);
     font-size: var(--footer-text);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--c3);
+    /* Always one line: it reads as a caption, not as a paragraph. */
+    white-space: nowrap;
+  }
+
+  /*
+   * On phones the line is wider than the screen at the normal size, so it
+   * scales with the viewport instead of wrapping.
+   */
+  @media (max-width: 640px) {
+    .proof__label {
+      font-size: min(var(--footer-text), 2.7vw);
+      letter-spacing: 0.03em;
+    }
   }
 
   .proof__viewport {
@@ -105,7 +118,11 @@ const COPIES = 3;
     }
   }
 
-  .proof:hover .proof__track {
+  /*
+   * Pause on the strip itself, not on the section: the section spans the full
+   * width, so hovering anywhere on that band used to stop it.
+   */
+  .proof__viewport:hover .proof__track {
     animation-play-state: paused;
   }
 

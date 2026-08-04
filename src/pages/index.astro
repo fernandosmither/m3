@@ -10,8 +10,10 @@ import Marquee from '../components/Marquee.astro';
 
   <!-- Statement and strip are centred together, so they read as one block. -->
   <main class="hero" id="main">
-    <Statement />
-    <Marquee />
+    <div class="hero__block">
+      <Statement />
+      <Marquee />
+    </div>
   </main>
 </Base>
 
@@ -21,6 +23,31 @@ import Marquee from '../components/Marquee.astro';
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* The scrim below bleeds past the viewport; clip it so nothing scrolls. */
+    overflow: hidden;
+  }
+
+  .hero__block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     gap: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  /*
+   * Soft pool of background colour behind the copy. It reaches well past the
+   * text so the edge never reads as a shape, only as the ASCII thinning out.
+   */
+  .hero__block::before {
+    content: '';
+    position: absolute;
+    inset: -18vh -10vw;
+    z-index: -1;
+    background: radial-gradient(
+      ellipse 46% 50% at 50% 50%,
+      var(--scrim-strong) 0%,
+      var(--scrim-mid) 45%,
+      var(--scrim-none) 78%
+    );
   }
 </style>

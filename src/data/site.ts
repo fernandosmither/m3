@@ -30,15 +30,21 @@ export const statement = [
  */
 export const proof = {
   /** Leave empty to show the strip without a caption. */
-  label: '',
+  label: 'Past AISB participants have been affiliated with',
   logos: ['DeepMind', 'Anthropic', 'OpenAI', 'SASH'],
 };
 
-export const legal = {
-  before: `(C)${site.year} - A `,
-  link: { label: 'GENERATOR RESIDENCY', href: 'https://generatorresidency.org/' },
-  after: ' PROJECT',
-};
+/**
+ * Footer credit line. Rendered part by part in Footer.astro: entries with an
+ * `href` become links, the rest is plain text.
+ */
+export const legal = [
+  { text: `(C)${site.year} - A COLLABORATION BETWEEN ` },
+  { text: 'CONSTELLATION', href: 'https://constellation.org/' },
+  { text: ', ' },
+  { text: 'KAIROS', href: 'https://kairos-project.org/' },
+  { text: ' AND AISB' },
+];
 
 export const program = {
   title: 'Program · M3',
@@ -77,7 +83,7 @@ export const program = {
     { value: '3', unit: 'months' },
     { value: '10-40', unit: 'hrs/week' },
     { value: '$100', unit: '/hour cap' },
-    { value: '6', unit: 'people, first cohort' },
+    { value: '6', unit: 'people' },
   ],
 };
 

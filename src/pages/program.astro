@@ -26,13 +26,14 @@ import { program } from '../data/site';
 
 <style>
   /*
-   * One column on mobile, four on desktop. Each figure is centred over its
+   * Two columns on phones, four on desktop. Each figure is centred over its
    * unit; with widths as different as "3" and "10-40", left alignment left the
    * block ragged.
    */
   .stats {
     display: grid;
-    gap: clamp(2rem, 5vw, 2.5rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.75rem, 5vw, 2.5rem) clamp(1rem, 4vw, 3rem);
     padding: clamp(2.5rem, 6vw, 4rem) var(--gutter);
     border-bottom: 1px solid var(--c4);
     text-align: center;
@@ -54,13 +55,6 @@ import { program } from '../data/site';
     color: var(--c3);
     /* Keeps "people, first cohort" from breaking mid-word. */
     text-wrap: balance;
-  }
-
-  @media (min-width: 560px) {
-    .stats {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: clamp(1.5rem, 4vw, 3rem);
-    }
   }
 
   @media (min-width: 900px) {
