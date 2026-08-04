@@ -1,0 +1,58 @@
+---
+import { legal, emailDisplay, site } from '../data/site';
+---
+
+<footer class="footer" data-rise style="--delay: 0.24s">
+  <p class="footer__legal">
+    {legal.before}<a href={legal.link.href} target="_blank" rel="noopener">{legal.link.label}</a
+    >{legal.after}
+  </p>
+  <a class="footer__mail" href={`mailto:${site.email}`}>{emailDisplay}</a>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding: var(--gutter);
+    color: var(--c1);
+    font-family: var(--font-mono);
+    font-size: var(--footer-text);
+    letter-spacing: 0.01em;
+  }
+
+  .footer__legal a {
+    color: var(--c3);
+    transition: color 0.25s var(--ease);
+  }
+
+  .footer__legal a:hover {
+    color: var(--c1);
+  }
+
+  .footer__mail {
+    transition: opacity 0.25s var(--ease);
+  }
+
+  .footer__mail:hover {
+    opacity: 0.65;
+  }
+
+  /*
+   * En movil el pie se queda solo con el correo: el legal no cabe en una
+   * linea y apilado se come media pantalla.
+   */
+  @media (max-width: 640px) {
+    .footer__legal {
+      display: none;
+    }
+
+    .footer {
+      justify-content: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,96 @@
+---
+interface Props {
+  sections: { n: string; title: string; paragraphs: string[] }[];
+}
+
+const { sections } = Astro.props;
+
+/**
+ * `[[frase]]` en el copy sale resaltada. Al partir por el grupo capturado,
+ * los indices impares del array son justamente lo que iba entre corchetes.
+ */
+const split = (text: string) => text.split(/\[\[(.+?)\]\]/g);
+---
+
+<div class="rows">
+  {
+    sections.map((s) => (
+      <section class="row">
+        <h2 class="row__head">
+          <span class="row__n">{s.n}</span>
+          <span class="row__title">{s.title}</span>
+        </h2>
+        <div class="row__body">
+          {s.paragraphs.map((p) => (
+            <p>{split(p).map((chunk, i) => (i % 2 ? <mark>{chunk}</mark> : chunk))}</p>
+          ))}
+        </div>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .rows {
+    display: grid;
+    gap: clamp(3.5rem, 9vw, 7rem);
+    padding: clamp(3.5rem, 9vw, 7rem) var(--gutter);
+  }
+
+  .row {
+    display: grid;
+    gap: clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  .row__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6em;
+    font-family: var(--font-sans);
+    font-size: var(--body-lg);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .row__n {
+    font-family: var(--font-mono);
+    font-size: 0.5em;
+    /* Alinea el (1) con la mayúscula, no con la línea base. */
+    padding-top: 0.35em;
+    color: var(--c2);
+  }
+
+  /* Mismo par de colores que la seleccion de texto, para que el resaltado
+     se lea como si alguien hubiera pasado el marcador. */
+  mark {
+    background: var(--c1);
+    color: #1a1a1a;
+    padding: 0.04em 0.12em;
+    margin-inline: -0.04em;
+    border-radius: 2px;
+  }
+
+  .row__body {
+    display: grid;
+    gap: 1em;
+    font-family: var(--font-sans);
+    font-size: var(--body-lg);
+    font-weight: 400;
+    line-height: 1.24;
+    letter-spacing: -0.015em;
+    text-wrap: pretty;
+  }
+
+  @media (min-width: 900px) {
+    .row {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .row__body {
+      max-width: 22ch;
+      /* Keep body copy in the right column. */
+      min-width: 100%;
+    }
+  }
+</style>

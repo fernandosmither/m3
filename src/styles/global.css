@@ -1,0 +1,136 @@
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource/jetbrains-mono/400.css';
+
+:root,
+[data-palette='reef'] {
+  --c1: #e0fbac; /* lima  — marca, pie, acentos */
+  --c2: #24c7d6; /* cian  */
+  --c3: #10b6cc; /* teal  */
+  --c4: #015474; /* azul profundo */
+  --c5: #002744; /* marino — fondo de paneles oscuros */
+
+  /* Tinta sobre los colores claros de la paleta. */
+  --on-light: #002744;
+
+  /* Rampa del fondo ASCII, de la banda mas tenue a la mas viva. */
+  --ascii-1: #013a52;
+  --ascii-2: #015474;
+  --ascii-3: #10b6cc;
+  --ascii-4: #24c7d6;
+}
+
+[data-palette='ember'] {
+  --c1: #e52b81; /* rosa    */
+  --c2: #ad66fd; /* violeta */
+  --c3: #fc171e; /* rojo    */
+  --c4: #9a1f46; /* vino    */
+  --c5: #3a0a20; /* ciruela — fondo de paneles oscuros */
+
+  --on-light: #1a1a1a;
+
+  --ascii-1: #4a0f2a;
+  --ascii-2: #9a1f46;
+  --ascii-3: #e52b81;
+  --ascii-4: #ad66fd;
+}
+
+:root {
+  --black: #1a1a1a;
+  --ink: #f2f2f2;
+
+  --font-sans: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* Interpolacion 375px -> 1440px. */
+  --slope: calc((100vw - 375px) / 1065);
+
+  --gutter: clamp(1rem, calc(1rem + 14 * var(--slope)), 1.875rem);
+  --pill-h: clamp(1.75rem, calc(1.75rem + 5 * var(--slope)), 2.0625rem);
+  --pill-text: clamp(0.8125rem, calc(0.8125rem + 4 * var(--slope)), 1.0625rem);
+  --statement: clamp(0.75rem, calc(0.75rem + 3.2 * var(--slope)), 0.95rem);
+  --footer-text: clamp(0.6875rem, calc(0.6875rem + 1.8 * var(--slope)), 0.8rem);
+
+  /* Titulares de las paginas interiores. */
+  --display: clamp(1.625rem, calc(1.625rem + 30 * var(--slope)), 3.5rem);
+  --body-lg: clamp(1.0625rem, calc(1.0625rem + 12 * var(--slope)), 1.8125rem);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100svh;
+  background: var(--black);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+svg {
+  display: block;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c1);
+  outline-offset: 3px;
+}
+
+/* Seleccion de texto. */
+::selection {
+  background: #e0fbac;
+  color: #1a1a1a;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+[data-rise] {
+  animation: rise 0.7s var(--ease) both;
+  animation-delay: var(--delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-rise] {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

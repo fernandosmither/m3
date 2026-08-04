@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import Panel from '../components/Panel.astro';
+import Rows from '../components/Rows.astro';
+import { focus } from '../data/site';
+---
+
+<Base title={focus.title} ascii={0}>
+  <Panel eyebrow={focus.eyebrow} headline={focus.headline} />
+
+  <main id="main">
+    <ul class="areas">
+      {
+        focus.areas.map((a) => (
+          <li class="area">
+            <span class="area__n">{a.n}</span>
+            <span>{a.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <Rows sections={focus.sections} />
+  </main>
+</Base>
+
+<style>
+  .areas {
+    display: grid;
+    padding: clamp(2rem, 5vw, 3.5rem) var(--gutter) 0;
+  }
+
+  .area {
+    display: flex;
+    align-items: baseline;
+    gap: 1em;
+    padding-block: clamp(0.75rem, 2vw, 1.1rem);
+    border-bottom: 1px solid var(--c5);
+    font-family: var(--font-sans);
+    font-size: var(--body-lg);
+    letter-spacing: -0.02em;
+  }
+
+  .area:first-child {
+    border-top: 1px solid var(--c5);
+  }
+
+  .area__n {
+    flex: none;
+    width: 2.5em;
+    font-family: var(--font-mono);
+    font-size: 0.5em;
+    color: var(--c2);
+  }
+
+  @media (min-width: 760px) {
+    .areas {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: clamp(2rem, 5vw, 4rem);
+    }
+
+    /* Con dos columnas, el borde superior lo llevan las dos primeras. */
+    .area:nth-child(2) {
+      border-top: 1px solid var(--c5);
+    }
+  }
+</style>

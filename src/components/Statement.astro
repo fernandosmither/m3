@@ -1,0 +1,41 @@
+---
+import { statement } from '../data/site';
+---
+
+<main class="statement" id="main">
+  <p class="statement__text" data-rise style="--delay: 0.12s">
+    {
+      statement.map((line, i) => (
+        <>
+          {i > 0 && <br class="statement__break" />}
+          {line}{' '}
+        </>
+      ))
+    }
+  </p>
+</main>
+
+<style>
+  .statement {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding-inline: var(--gutter);
+  }
+
+  .statement__text {
+    max-width: 62ch;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: var(--statement);
+    line-height: 1.28;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 900px) {
+    .statement__break {
+      display: none;
+    }
+  }
+</style>
