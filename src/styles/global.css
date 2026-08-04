@@ -9,10 +9,10 @@
   --c4: #015474; /* azul profundo */
   --c5: #002744; /* marino — fondo de paneles oscuros */
 
-  /* Tinta sobre los colores claros de la paleta. */
+  /* Ink on the light colours of the palette. */
   --on-light: #002744;
 
-  /* Rampa del fondo ASCII, de la banda mas tenue a la mas viva. */
+  /* ASCII background ramp, from the faintest band to the brightest. */
   --ascii-1: #013a52;
   --ascii-2: #015474;
   --ascii-3: #10b6cc;
@@ -41,16 +41,16 @@
   --font-sans: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
 
-  /* Interpolacion 375px -> 1440px. */
+  /* Interpolation from 375px to 1440px. */
   --slope: calc((100vw - 375px) / 1065);
 
   --gutter: clamp(1rem, calc(1rem + 14 * var(--slope)), 1.875rem);
-  --pill-h: clamp(1.75rem, calc(1.75rem + 5 * var(--slope)), 2.0625rem);
-  --pill-text: clamp(0.8125rem, calc(0.8125rem + 4 * var(--slope)), 1.0625rem);
+  --pill-h: clamp(1.5rem, calc(1.5rem + 4 * var(--slope)), 1.75rem);
+  --pill-text: clamp(0.6875rem, calc(0.6875rem + 3.5 * var(--slope)), 0.90625rem);
   --statement: clamp(0.75rem, calc(0.75rem + 3.2 * var(--slope)), 0.95rem);
   --footer-text: clamp(0.6875rem, calc(0.6875rem + 1.8 * var(--slope)), 0.8rem);
 
-  /* Titulares de las paginas interiores. */
+  /* Headings on the inner pages. */
   --display: clamp(1.625rem, calc(1.625rem + 30 * var(--slope)), 3.5rem);
   --body-lg: clamp(1.0625rem, calc(1.0625rem + 12 * var(--slope)), 1.8125rem);
 
@@ -101,7 +101,7 @@ svg {
   outline-offset: 3px;
 }
 
-/* Seleccion de texto. */
+/* Text selection. */
 ::selection {
   background: #e0fbac;
   color: #1a1a1a;

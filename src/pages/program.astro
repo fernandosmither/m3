@@ -26,9 +26,9 @@ import { program } from '../data/site';
 
 <style>
   /*
-   * Una columna en movil, cuatro en desktop. Cada cifra va centrada sobre su
-   * unidad; con anchos tan distintos ("3" contra "10-40") alinear a la
-   * izquierda dejaba el bloque desparejo.
+   * One column on mobile, four on desktop. Each figure is centred over its
+   * unit; with widths as different as "3" and "10-40", left alignment left the
+   * block ragged.
    */
   .stats {
     display: grid;
@@ -52,7 +52,7 @@ import { program } from '../data/site';
     font-family: var(--font-mono);
     font-size: var(--statement);
     color: var(--c3);
-    /* "people, first cohort" no se parte a mitad de palabra. */
+    /* Keeps "people, first cohort" from breaking mid-word. */
     text-wrap: balance;
   }
 

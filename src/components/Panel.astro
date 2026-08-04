@@ -2,7 +2,7 @@
 import Nav from './Nav.astro';
 
 interface Props {
-  /** 'dark' o un rol de la paleta: c1..c5. */
+  /** 'dark', or a palette role: c1..c5. */
   tone?: string;
   eyebrow: string;
   headline: string;
@@ -59,12 +59,12 @@ const light = tone !== 'dark';
     color: inherit;
   }
 
-  /* En oscuro la etiqueta toma el acento, que es lo unico de color arriba. */
+  /* On dark, the label takes the accent: the only colour above the fold. */
   .panel:not(.panel--light) .panel__eyebrow {
     color: var(--c2);
   }
 
-  /* En movil 72svh dejaba un hueco muerto enorme antes del contenido. */
+  /* On mobile 72svh left a large dead gap before the content. */
   @media (max-width: 640px) {
     .panel {
       min-height: 56svh;
