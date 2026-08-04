@@ -2,9 +2,25 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Statement from '../components/Statement.astro';
+import Marquee from '../components/Marquee.astro';
 ---
 
 <Base>
   <Nav />
-  <Statement />
+
+  <!-- Statement and strip are centred together, so they read as one block. -->
+  <main class="hero" id="main">
+    <Statement />
+    <Marquee />
+  </main>
 </Base>
+
+<style>
+  .hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+</style>

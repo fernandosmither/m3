@@ -2,7 +2,7 @@
 import { statement } from '../data/site';
 ---
 
-<main class="statement" id="main">
+<section class="statement">
   <p class="statement__text" data-rise style="--delay: 0.12s">
     {
       statement.map((line, i) => (
@@ -13,11 +13,10 @@ import { statement } from '../data/site';
       ))
     }
   </p>
-</main>
+</section>
 
 <style>
   .statement {
-    flex: 1;
     display: grid;
     place-items: center;
     padding-inline: var(--gutter);

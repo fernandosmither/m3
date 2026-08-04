@@ -24,6 +24,16 @@ export const statement = [
   'NO MENTORS. YOU SET THE DIRECTION.',
 ];
 
+/**
+ * Social proof strip. These are set by the client: the component only renders
+ * what is listed here. Names render as type, not as third-party logo artwork.
+ */
+export const proof = {
+  /** Leave empty to show the strip without a caption. */
+  label: '',
+  logos: ['DeepMind', 'Anthropic', 'OpenAI', 'SASH'],
+};
+
 export const legal = {
   before: `(C)${site.year} - A `,
   link: { label: 'GENERATOR RESIDENCY', href: 'https://generatorresidency.org/' },
