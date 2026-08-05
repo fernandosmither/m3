@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { site } from '../data/site';
 import AsciiField from '../components/AsciiField.astro';
 import Footer from '../components/Footer.astro';
+import ScrollFlow from '../components/ScrollFlow.astro';
 
 interface Props {
   title?: string;
@@ -37,6 +38,7 @@ const { title = site.title, description = site.description, ascii = 1 } = Astro.
     <div class="page">
       <slot />
       <Footer />
+      <ScrollFlow />
     </div>
 
     <style>

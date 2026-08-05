@@ -89,6 +89,8 @@ body {
   font-family: var(--font-mono);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* The overscroll pull belongs to the page flow, not to pull-to-refresh. */
+  overscroll-behavior-y: none;
 }
 
 a {
@@ -140,5 +142,63 @@ svg {
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+ * Cross-document view transitions. The three pages are one strip: going
+ * forward the screen lifts away and the next one rises into its place, going
+ * back it runs the other way. Browsers without them just load the next page.
+ */
+@media not (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  @keyframes flow-up-out {
+    to {
+      opacity: 0;
+      transform: translateY(-4vh);
+    }
+  }
+
+  @keyframes flow-up-in {
+    from {
+      opacity: 0;
+      transform: translateY(4vh);
+    }
+  }
+
+  @keyframes flow-down-out {
+    to {
+      opacity: 0;
+      transform: translateY(4vh);
+    }
+  }
+
+  @keyframes flow-down-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4vh);
+    }
+  }
+
+  ::view-transition-old(root) {
+    animation: flow-up-out 0.45s var(--ease) both;
+  }
+
+  ::view-transition-new(root) {
+    animation: flow-up-in 0.45s var(--ease) both;
+  }
+
+  /* ScrollFlow tags the transition when the destination sits earlier in the
+     order. Engines without transition types drop these two rules and keep the
+     single forward move, which still reads. */
+  :root:active-view-transition-type(flow-back)::view-transition-old(root) {
+    animation-name: flow-down-out;
+  }
+
+  :root:active-view-transition-type(flow-back)::view-transition-new(root) {
+    animation-name: flow-down-in;
   }
 }
