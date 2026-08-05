@@ -10,6 +10,12 @@ const { sections } = Astro.props;
  * means the odd indices are exactly what sat inside the brackets.
  */
 const split = (text: string) => text.split(/\[\[(.+?)\]\]/g);
+
+/**
+ * `[text](url)` renders as a link. Two capture groups, so of every three
+ * indices the first is plain text, the second the label, the third the URL.
+ */
+const links = (text: string) => text.split(/\[(.+?)\]\((.+?)\)/g);
 ---
 
 <div class="rows">
@@ -22,7 +28,23 @@ const split = (text: string) => text.split(/\[\[(.+?)\]\]/g);
         </h2>
         <div class="row__body">
           {s.paragraphs.map((p) => (
-            <p>{split(p).map((chunk, i) => (i % 2 ? <mark>{chunk}</mark> : chunk))}</p>
+            <p>
+              {split(p).map((chunk, i) =>
+                i % 2 ? (
+                  <mark>{chunk}</mark>
+                ) : (
+                  links(chunk).map((part, j, parts) =>
+                    j % 3 === 1 ? (
+                      <a href={parts[j + 1]} target="_blank" rel="noopener">
+                        {part}
+                      </a>
+                    ) : j % 3 === 2 ? null : (
+                      part
+                    )
+                  )
+                )
+              )}
+            </p>
           ))}
         </div>
       </section>
@@ -68,6 +90,18 @@ const split = (text: string) => text.split(/\[\[(.+?)\]\]/g);
     padding: 0.04em 0.12em;
     margin-inline: -0.04em;
     border-radius: 2px;
+  }
+
+  /* Body links underline in the accent so they read apart from the marks. */
+  .row__body a {
+    text-decoration: underline;
+    text-decoration-color: var(--c2);
+    text-underline-offset: 0.15em;
+    transition: color 0.25s var(--ease);
+  }
+
+  .row__body a:hover {
+    color: var(--c2);
   }
 
   .row__body {

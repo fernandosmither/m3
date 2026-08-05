@@ -3,7 +3,7 @@ export const site = {
   longName: 'Mentorless Match',
   title: 'M3 · Mentorless Match',
   description:
-    'A three-month, part-time fellowship for senior security professionals moving into AI security, paid to match your salary. You set the direction.',
+    'A salary-matched, part-time fellowship for senior security professionals moving into AI security. A paid month to build, up to two more for the strongest work. You set the direction.',
   // Replace with the final application form URL before release.
   applyUrl: 'https://tally.so/r/REEMPLAZAR',
   email: 'hello@m3.org',
@@ -19,19 +19,18 @@ export const nav = [
 ];
 
 export const statement = [
-  'A THREE-MONTH, SALARY-MATCHED FELLOWSHIP FOR SENIOR',
-  'SECURITY PEOPLE MOVING INTO AI SECURITY.',
+  'A SALARY-MATCHED FELLOWSHIP FOR SENIOR SECURITY PEOPLE',
+  'MOVING INTO AI SECURITY. ONE PAID MONTH, UP TO TWO MORE.',
   'NO MENTORS. YOU SET THE DIRECTION.',
 ];
 
 /**
- * Social proof strip. These are set by the client: the component only renders
- * what is listed here. Names render as type, not as third-party logo artwork.
+ * Social proof strip. The caption lives here; the logo artwork itself is
+ * listed in `data/logos.ts` and rendered as images by Marquee.astro.
  */
 export const proof = {
   /** Leave empty to show the strip without a caption. */
   label: 'Past AISB participants have been affiliated with',
-  logos: ['DeepMind', 'Anthropic', 'OpenAI', 'SASH'],
 };
 
 /**
@@ -43,13 +42,14 @@ export const legal = [
   { text: 'CONSTELLATION', href: 'https://constellation.org/' },
   { text: ', ' },
   { text: 'KAIROS', href: 'https://kairos-project.org/' },
-  { text: ' AND AISB' },
+  { text: ' AND ' },
+  { text: 'AISB', href: 'https://aisb.dev/' },
 ];
 
 export const program = {
   title: 'Program · M3',
   eyebrow: 'WE ARE PART-TIME BY DESIGN',
-  headline: 'A week in London to find the problem, then three paid months to work on it.',
+  headline: 'A week in London to find the problem, then a paid month to build it.',
   sections: [
     {
       n: '(1)',
@@ -57,16 +57,17 @@ export const program = {
       paragraphs: [
         '[[A week in person in London]]. Mornings are research blocks: you read the field and write down what is missing.',
         'Afternoons are discussion sprints. You bring a hypothesis and a small group tries to break it, with field experts there to red-team the parts you cannot see.',
-        'Themed days cover governance, treaty verification, field building, infrastructure security and agent security. The cohort votes on a wildcard day.',
+        'Themed days cover governance, treaty verification, field building, infrastructure security and agent security. Then a [[wildcard day]]: yours, to go deep wherever you found you fit best.',
+        'On the last in-person day you present what you plan to build, and the cohort gives you feedback before the month starts.',
       ],
     },
     {
       n: '(2)',
       title: 'Build phase',
       paragraphs: [
-        '[[Three months remote]], alongside your job. You commit between ten and forty hours a week to your own project and you get paid for them, [[up to $100 an hour]].',
+        '[[One month remote]], alongside your job. You commit up to ten hours a week to your own project and you get paid for them, [[up to $100 an hour]].',
         'A weekly standup with three peers and one facilitator keeps the accountability tight. Nobody directs your work.',
-        'Month one goes to research, month two to preliminary results, and by month three you decide what the work becomes.',
+        'The month ends on demo day, the last Friday.',
       ],
     },
     {
@@ -75,13 +76,28 @@ export const program = {
       paragraphs: [
         'You present what you built to the cohort and to the people who can move it forward.',
         'Papers get routed to workshops and arXiv referrals, tools go to the open source community, and new orgs get introductions to funders.',
-        'Projects that need more time [[can extend by two paid months]].',
+      ],
+    },
+    {
+      n: '(4)',
+      title: 'Extension period',
+      paragraphs: [
+        'The strongest results earn [[up to two more paid months]] on the same terms.',
+        'Same rate, same standup: enough time to turn a promising demo into something the field can use.',
+      ],
+    },
+    {
+      n: '(+)',
+      title: 'The network',
+      paragraphs: [
+        'One of the biggest things you leave with. This iteration runs alongside [[AISB London]], in the same venue, so the fellows are in the room with you all week.',
+        'AISB brings its own connections, [GovAI](https://www.governance.ai/) among them: governance researchers, fellows and alumni you can reach when the work needs them.',
       ],
     },
   ],
   stats: [
-    { value: '3', unit: 'months' },
-    { value: '10-40', unit: 'hrs/week' },
+    { value: '1+2', unit: 'months' },
+    { value: '10', unit: 'hrs/week cap' },
     { value: '$100', unit: '/hour cap' },
     { value: '6', unit: 'people' },
   ],
@@ -108,7 +124,6 @@ export const focus = {
       title: 'Empirical or theoretical',
       paragraphs: [
         'Both count. A benchmark nobody had built and a harness that makes an existing claim testable are both outputs we can route onward.',
-        'A survey of work other people already did does not count.',
       ],
     },
     {
