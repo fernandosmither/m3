@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Panel from '../components/Panel.astro';
 import Rows from '../components/Rows.astro';
+import Cta from '../components/Cta.astro';
 import { focus } from '../data/site';
 ---
 
@@ -21,6 +22,8 @@ import { focus } from '../data/site';
     </ul>
 
     <Rows sections={focus.sections} />
+
+    <Cta note="Six seats. You set the direction." />
   </main>
 </Base>
 
