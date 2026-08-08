@@ -1,0 +1,132 @@
+export const nav = [
+  { label: "Program", href: "#program" },
+  { label: "Problems", href: "#problems" },
+  { label: "Scope", href: "#scope" },
+  { label: "Apply", href: "#apply" },
+];
+
+export const hero = {
+  headline: "Move into AI security.",
+  sub: "A three-month, salary-matched fellowship for senior security people. No mentors. You set the direction.",
+  ctaLabel: "Apply by 27 Oct",
+  ctaHref: "#apply",
+};
+
+export const affiliations = {
+  label: "Past AISB participants have been affiliated with",
+  logos: ["DeepMind", "Anthropic", "OpenAI", "SASH"],
+};
+
+export const lead =
+  "A week in London to find the problem, then three paid months to work on it.";
+
+export const stats = [
+  { value: "3", unit: "months" },
+  { value: "10–40", unit: "hrs/week" },
+  { value: "$100", unit: "/hour cap" },
+  { value: "6", unit: "people" },
+];
+
+export const phases = [
+  {
+    id: "week-one",
+    index: "1",
+    title: "Week one",
+    paragraphs: [
+      "A week in person in London. Mornings are research blocks: you read the field and write down what is missing.",
+      "Afternoons are discussion sprints. You bring a hypothesis and a small group tries to break it, with field experts there to red-team the parts you cannot see.",
+      "Themed days cover governance, treaty verification, field building, infrastructure security and agent security. The cohort votes on a wildcard day.",
+    ],
+  },
+  {
+    id: "build-phase",
+    index: "2",
+    title: "Build phase",
+    paragraphs: [
+      "Three months remote, alongside your job. You commit between ten and forty hours a week to your own project and you get paid for them, up to $100 an hour.",
+      "A weekly standup with three peers and one facilitator keeps the accountability tight. Nobody directs your work.",
+      "Month one goes to research, month two to preliminary results, and by month three you decide what the work becomes.",
+    ],
+  },
+  {
+    id: "demo-day",
+    index: "3",
+    title: "Demo day",
+    paragraphs: [
+      "You present what you built to the cohort and to the people who can move it forward.",
+      "Papers get routed to workshops and arXiv referrals, tools go to the open source community, and new orgs get introductions to funders.",
+      "Projects that need more time can extend by two paid months.",
+    ],
+  },
+];
+
+/**
+ * Draft copy expanded from shorthand notes — worth a read-through before this
+ * goes live.
+ */
+export const personas = {
+  lead: "The fellowship is built for three people.",
+  items: [
+    {
+      index: "1",
+      role: "The researcher",
+      summary: "You want to write the paper.",
+      body: "You have a question the field has not answered, and three months is enough to answer it properly rather than in the margins of another job.",
+    },
+    {
+      index: "2",
+      role: "The founder",
+      summary: "You see a gap worth an organisation.",
+      body: "A non-profit that governments will need and nobody has built yet. You want the time to scope it, test whether it holds, and leave with something fundable.",
+    },
+    {
+      index: "3",
+      role: "The field builder",
+      summary: "You want to bring more people in.",
+      body: "You have spent years inside the area and the bottleneck you see is people, not ideas. You want to build the thing that widens the door.",
+    },
+  ],
+  footnote: "Another project? We can host it.",
+};
+
+export const problems = {
+  lead: "You pick the direction. These are the problems we think are most neglected relative to how much they matter.",
+  items: [
+    "Compute governance",
+    "Inference verification",
+    "Model attestation",
+    "Hardware security",
+    "Securing model weights",
+    "Treaty verification",
+    "Agent security",
+    "Authorization against misuse",
+  ],
+};
+
+export const notes = [
+  {
+    index: "1",
+    title: "Empirical or theoretical",
+    paragraphs: [
+      "Both count. A benchmark nobody had built and a harness that makes an existing claim testable are both outputs we can route onward.",
+      "A survey of work other people already did does not count.",
+    ],
+  },
+  {
+    index: "2",
+    title: "Off this list is fine",
+    paragraphs: [
+      "The list is where we think the gaps are. If you have spent a decade inside a problem we did not think to name, that is a better reason to work on it than anything written here.",
+      "Bring it in week one and let the group try to break it.",
+    ],
+  },
+];
+
+export const footer = {
+  headline: "Find a problem worth three months.",
+  ctaLabel: "Apply by 27 Oct",
+  ctaHref: "#apply",
+  facts: ["A week in London", "Three months remote", "Salary matched"],
+  legal: "© 2026 — A collaboration between Constellation, Kairos and AISB",
+  email: "hello@m3.org",
+};

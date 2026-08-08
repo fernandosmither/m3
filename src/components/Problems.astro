@@ -1,0 +1,100 @@
+---
+import { problems } from "../data/m3";
+import Grain from "./Grain.astro";
+---
+
+<section class="problems" id="problems" aria-labelledby="problems-heading">
+  <div class="problems__bg" aria-hidden="true">
+    <Grain filterId="problems-grain-filter" />
+  </div>
+
+  <div class="shell problems__inner">
+    <h2 class="problems__lead" id="problems-heading">{problems.lead}</h2>
+
+    <ol class="grid">
+      {problems.items.map((item, i) => (
+        <li class="tile">
+          <span class="tile__num">{String(i + 1).padStart(2, "0")}</span>
+          <span class="tile__name">{item}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .problems {
+    position: relative;
+    isolation: isolate;
+    border-block-start: 1px solid var(--hairline-soft);
+    padding-block: clamp(3rem, 8vw, 5.5rem);
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  .problems__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .problems__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.25rem, 5vw, 3.5rem);
+  }
+
+  .problems__lead {
+    max-width: 38ch;
+    font-size: var(--step-lead);
+    line-height: 1.32;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    /* Hairline grid: the gap shows the background through, so borders never
+       double up between cells. */
+    background: var(--hairline-soft);
+    border: 1px solid var(--hairline-soft);
+  }
+
+  .tile {
+    display: flex;
+    align-items: baseline;
+    gap: 0.875rem;
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    background: #0c0c0d;
+    transition: background-color 0.2s ease;
+  }
+
+  .tile:hover {
+    background: var(--bg-raised);
+  }
+
+  .tile__num {
+    flex: none;
+    color: var(--ink-dim);
+    font-family: var(--mono);
+    font-size: var(--step-label);
+    letter-spacing: 0.1em;
+  }
+
+  .tile__name {
+    font-size: clamp(1rem, 0.94rem + 0.3vw, 1.1875rem);
+    line-height: 1.35;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile {
+      transition: none;
+    }
+  }
+</style>

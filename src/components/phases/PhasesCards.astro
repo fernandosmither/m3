@@ -1,0 +1,58 @@
+---
+import { phases } from "../../data/m3";
+---
+
+<div class="cards shell">
+  <ol class="cards__grid">
+    {phases.map((phase) => (
+      <li class="card">
+        <p class="card__index">({phase.index})</p>
+        <h3 class="card__title">{phase.title}</h3>
+        <div class="card__body">
+          {phase.paragraphs.map((p) => <p>{p}</p>)}
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .cards__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: var(--hairline-soft);
+    border: 1px solid var(--hairline-soft);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: #0c0c0d;
+  }
+
+  .card__index {
+    color: var(--ink-dim);
+    font-family: var(--mono);
+    font-size: var(--step-label);
+    letter-spacing: 0.12em;
+  }
+
+  .card__title {
+    margin-block-end: 0.5rem;
+    font-size: clamp(1.375rem, 1.1rem + 1vw, 1.875rem);
+  }
+
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    color: var(--ink-muted);
+    line-height: 1.66;
+  }
+</style>

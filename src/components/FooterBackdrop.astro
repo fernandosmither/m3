@@ -1,0 +1,71 @@
+---
+/**
+ * Starfield with a few sweeping dotted arcs, generated at build time from a
+ * fixed seed so the panel renders identically on every build.
+ */
+const W = 1600;
+const H = 460;
+
+let seed = 731911;
+const rnd = () => ((seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296);
+const f = (n: number) => n.toFixed(2);
+
+const stars = Array.from({ length: 190 }, () => {
+  const r = rnd();
+  return {
+    cx: rnd() * W,
+    cy: rnd() * H,
+    r: r < 0.86 ? 0.5 + rnd() * 0.5 : 1 + rnd() * 0.9,
+    o: 0.18 + rnd() * 0.6,
+  };
+});
+
+// Wide, shallow arcs whose centres sit far off-panel, so only a gentle sweep
+// crosses the frame.
+const arcs = [
+  { cx: 300, cy: 1180, r: 980, a1: 250, a2: 297 },
+  { cx: 1250, cy: 1320, r: 1120, a1: 243, a2: 292 },
+  { cx: 820, cy: -880, r: 1080, a1: 62, a2: 118 },
+];
+
+const rad = (d: number) => (d * Math.PI) / 180;
+const arcPaths = arcs.map((a) => {
+  const p1 = [a.cx + a.r * Math.cos(rad(a.a1)), a.cy + a.r * Math.sin(rad(a.a1))];
+  const p2 = [a.cx + a.r * Math.cos(rad(a.a2)), a.cy + a.r * Math.sin(rad(a.a2))];
+  return `M ${f(p1[0])} ${f(p1[1])} A ${a.r} ${a.r} 0 0 1 ${f(p2[0])} ${f(p2[1])}`;
+});
+---
+
+<svg
+  class="stars"
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="xMidYMid slice"
+  aria-hidden="true"
+  focusable="false"
+>
+  {arcPaths.map((d) => (
+    <path
+      d={d}
+      fill="none"
+      stroke="#fff"
+      stroke-opacity="0.34"
+      stroke-width="1"
+      stroke-linecap="round"
+      stroke-dasharray="1 6"
+    />
+  ))}
+
+  {stars.map((s) => (
+    <circle cx={f(s.cx)} cy={f(s.cy)} r={f(s.r)} fill="#fff" opacity={s.o.toFixed(2)} />
+  ))}
+</svg>
+
+<style>
+  .stars {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+</style>

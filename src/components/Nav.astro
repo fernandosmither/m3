@@ -1,161 +1,283 @@
 ---
-import { nav, site } from '../data/site';
-
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const link = (href: string) => (href.startsWith('/') ? `${base}${href}/` : href);
-
-const here = Astro.url.pathname.replace(/\/$/, '');
+import { nav } from "../data/m3";
 ---
 
-<header class="nav" data-rise>
-  <ul class="nav__pills">
-    <li class="nav__item">
-      <a
-        class="pill pill--brand"
-        href={`${base}/`}
-        aria-label={`${site.name}, ${site.longName}, home`}
-        aria-current={here === base ? 'page' : undefined}
-      >
-        {site.name}
-      </a>
-    </li>
-    {
-      nav.map((item) => (
-        <li class="nav__item">
+<nav class="nav" aria-label="Primary">
+  <div class="nav__bar" data-nav-bar>
+    <span class="nav__pill" data-nav-pill aria-hidden="true"></span>
+
+    <ul class="nav__list">
+      {nav.map((item, i) => (
+        <li>
           <a
-            class="pill"
-            href={link(item.href)}
-            style={`--pill-bg: var(--${item.tone})`}
-            aria-current={here === `${base}${item.href}` ? 'page' : undefined}
-            target={item.external ? '_blank' : undefined}
-            rel={item.external ? 'noopener' : undefined}
+            href={item.href}
+            class:list={["nav__link", { "nav__link--active": i === 0 }]}
+            data-nav-link
+            data-target={item.href.slice(1)}
           >
             {item.label}
           </a>
         </li>
-      ))
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<script>
+  const bar = document.querySelector<HTMLElement>("[data-nav-bar]");
+  const pill = document.querySelector<HTMLElement>("[data-nav-pill]");
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"));
+
+  if (bar && pill && links.length) {
+    // Only take over the indicator once JS can actually drive it, so the
+    // no-JS fallback (a plain background on the active link) stays correct.
+    bar.dataset.enhanced = "true";
+
+    let current = links[0]!;
+
+    const place = (link: HTMLAnchorElement, animate: boolean) => {
+      const a = link.getBoundingClientRect();
+      const b = bar.getBoundingClientRect();
+      if (!animate) pill.style.transitionDuration = "0ms";
+      pill.style.width = `${a.width}px`;
+      pill.style.height = `${a.height}px`;
+      pill.style.transform = `translate3d(${a.left - b.left}px, ${a.top - b.top}px, 0)`;
+      if (!animate) {
+        // Force a reflow so the next move animates from this position.
+        void pill.offsetWidth;
+        pill.style.transitionDuration = "";
+      }
+    };
+
+    const select = (link: HTMLAnchorElement, animate = true) => {
+      if (link === current && animate) return;
+      current = link;
+      for (const l of links) {
+        const on = l === link;
+        l.classList.toggle("nav__link--active", on);
+        if (on) l.setAttribute("aria-current", "true");
+        else l.removeAttribute("aria-current");
+      }
+      place(link, animate);
+    };
+
+    place(current, false);
+    // Metrics shift once the webfont swaps in.
+    document.fonts?.ready.then(() => place(current, false));
+    new ResizeObserver(() => place(current, false)).observe(bar);
+
+    const entries = links
+      .map((link) => ({
+        link,
+        section: document.getElementById(link.dataset.target ?? ""),
+      }))
+      .filter(
+        (entry): entry is { link: HTMLAnchorElement; section: HTMLElement } =>
+          Boolean(entry.section),
+      );
+
+    if (entries.length) {
+      let navigatingTo: HTMLAnchorElement | null = null;
+      let navigationFallback: number | undefined;
+
+      const isAtBottom = () =>
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2;
+
+      // Pick by geometry rather than array index. This stays correct if a nav
+      // item is missing its section or the page order changes later.
+      const activeAtScrollPosition = () => {
+        const line = window.innerHeight * 0.32;
+        let active = entries[0]!.link;
+        let closestTop = Number.NEGATIVE_INFINITY;
+
+        for (const entry of entries) {
+          const top = entry.section.getBoundingClientRect().top;
+          if (top <= line && top > closestTop) {
+            active = entry.link;
+            closestTop = top;
+          }
+        }
+
+        // The footer is shorter than the viewport, so its top may never cross
+        // the activation line during a manual scroll.
+        if (isAtBottom()) active = entries[entries.length - 1]!.link;
+        return active;
+      };
+
+      const sync = () => {
+        bar.dataset.scrolled = window.scrollY > 24 ? "true" : "false";
+
+        // Native anchor navigation uses smooth scrolling. Keep the clicked
+        // destination committed while that animation runs; otherwise the
+        // scroll spy immediately selects the section we are leaving and makes
+        // the pill jump away and back.
+        if (navigatingTo) return;
+
+        const active = activeAtScrollPosition();
+        if (active !== current) select(active);
+      };
+
+      const finishNavigation = () => {
+        if (!navigatingTo) return;
+
+        const target = navigatingTo;
+        navigatingTo = null;
+        window.clearTimeout(navigationFallback);
+
+        const entry = entries.find(({ link }) => link === target);
+        const line = window.innerHeight * 0.32;
+        const rect = entry?.section.getBoundingClientRect();
+        const reachedTarget = Boolean(
+          rect && rect.top <= line && rect.bottom > line,
+        );
+        const reachedLastTarget =
+          target === entries[entries.length - 1]!.link && isAtBottom();
+
+        // If the user interrupts the smooth scroll, hand control back to the
+        // scroll spy instead of leaving the clicked item selected.
+        if (!reachedTarget && !reachedLastTarget) sync();
+      };
+
+      // The pill follows commitment only — a click or the settled scroll
+      // position. It deliberately does not preview on hover or focus.
+      for (const link of links) {
+        link.addEventListener("click", () => {
+          navigatingTo = link;
+          select(link);
+          window.clearTimeout(navigationFallback);
+          navigationFallback = window.setTimeout(finishNavigation, 1800);
+        });
+      }
+
+      sync();
+      window.addEventListener("scroll", sync, { passive: true });
+      window.addEventListener("scrollend", finishNavigation, { passive: true });
     }
-  </ul>
-</header>
+  }
+</script>
 
 <style>
   .nav {
-    position: relative;
-    z-index: 3;
+    position: fixed;
+    inset-block-start: clamp(0.625rem, 1.8vw, 1.125rem);
+    inset-inline: 0;
+    z-index: 50;
     display: flex;
-    align-items: flex-start;
-    padding: var(--gutter);
-    /* Darkens the ASCII under the pills, fading out below them. */
+    justify-content: center;
+    padding-inline: clamp(0.75rem, 3vw, 1.5rem);
+    pointer-events: none;
+  }
+
+  .nav__bar {
+    position: relative;
+    max-width: 100%;
+    padding: 0.3125rem;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 0.9375rem;
+    /* Glassy, slightly lit slab so the sliding pill reads as a physical part
+       moving inside a groove. */
     background: linear-gradient(
       180deg,
-      var(--scrim-strong) 0%,
-      var(--scrim-mid) 55%,
-      var(--scrim-none) 100%
+      rgb(255 255 255 / 0.075),
+      rgb(255 255 255 / 0.035)
     );
-    padding-bottom: calc(var(--gutter) * 2);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.09),
+      0 10px 30px rgb(0 0 0 / 0.45);
+    backdrop-filter: blur(14px) saturate(140%);
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
+    pointer-events: auto;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
-  .nav__pills {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    /* The connector dash lives inside this gap. */
-    gap: 0.625rem;
+  .nav__bar::-webkit-scrollbar {
+    display: none;
   }
 
-  .nav__item {
+  .nav__bar[data-scrolled="true"] {
+    border-color: rgb(255 255 255 / 0.14);
+  }
+
+  .nav__list {
     position: relative;
+    z-index: 1;
     display: flex;
+    flex-wrap: nowrap;
+    gap: 0.125rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  /* Connector between navigation items. */
-  .nav__item + .nav__item::before {
-    content: '';
+  /* ---- the sliding indicator ---- */
+
+  .nav__pill {
     position: absolute;
-    left: -0.625rem;
-    top: 50%;
-    width: 0.625rem;
-    height: 2px;
-    margin-top: -1px;
-    background: var(--c4);
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    z-index: 0;
+    border-radius: 0.6875rem;
+    background: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.2),
+      rgb(255 255 255 / 0.1)
+    );
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.28),
+      inset 0 -1px 0 rgb(0 0 0 / 0.25),
+      0 4px 14px rgb(0 0 0 / 0.4);
+    opacity: 0;
+    /* Slight overshoot on both transform and width is what makes the pill feel
+       like it settles rather than snaps. */
+    transition:
+      transform 0.62s cubic-bezier(0.34, 1.32, 0.36, 1),
+      width 0.62s cubic-bezier(0.34, 1.32, 0.36, 1),
+      height 0.3s ease,
+      opacity 0.3s ease;
+    will-change: transform, width;
   }
 
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    height: var(--pill-h);
-    padding-inline: 0.75em;
-    border-radius: 5px;
-    background: var(--pill-bg, var(--ink));
-    color: var(--on-light);
-    font-family: var(--font-sans);
-    font-size: var(--pill-text);
-    font-weight: 700;
-    letter-spacing: -0.01em;
+  .nav__bar[data-enhanced="true"] .nav__pill {
+    opacity: 1;
+  }
+
+  .nav__link {
+    position: relative;
+    display: block;
+    padding: 0.5rem clamp(0.625rem, 2.4vw, 0.9375rem);
+    border-radius: 0.6875rem;
+    color: rgb(255 255 255 / 0.58);
+    font-family: var(--mono);
+    font-size: clamp(0.625rem, 0.55rem + 0.2vw, 0.71875rem);
+    letter-spacing: 0.069em;
+    text-transform: uppercase;
+    text-decoration: none;
     white-space: nowrap;
-    transition: opacity 0.25s var(--ease);
+    transition: color 0.32s ease;
   }
 
-  /* Several pills are already white, so hover dims instead of changing
-     colour: it works whatever the tone. */
-  .pill:hover {
-    opacity: 0.78;
+  .nav__link:hover {
+    color: rgb(255 255 255 / 0.9);
   }
 
-  /* The current page dims: still legible, no longer inviting a click. */
-  .pill[aria-current='page'] {
-    background: var(--c5);
-    color: var(--ink);
+  .nav__link--active {
+    color: rgb(255 255 255 / 0.96);
   }
 
-  /*
-   * On a coloured panel, a pill in the same tone disappears. The outline always
-   * delimits them, and the wordmark drops to the darkest tone.
-   */
-  :global(.panel--light) .pill {
-    box-shadow: inset 0 0 0 1px var(--c5);
+  /* No-JS fallback: the pill never moves, so mark the active link directly. */
+  .nav__bar:not([data-enhanced]) .nav__link--active {
+    background: rgb(255 255 255 / 0.13);
   }
 
-  :global(.panel--light) .pill--brand {
-    background: var(--c5);
-    color: var(--ink);
-    box-shadow: none;
-  }
-
-  :global(.panel--light) .nav__item + .nav__item::before {
-    background: var(--c5);
-  }
-
-  /*
-   * On phones the row is centred and the pills grow: at this size they are the
-   * only navigation, so they need to be comfortable tap targets.
-   */
-  @media (max-width: 640px) {
-    .nav {
-      justify-content: center;
+  @media (prefers-reduced-motion: reduce) {
+    .nav__pill {
+      transition: opacity 0.2s ease;
     }
-
-    .nav__pills {
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .pill {
-      height: 2.125rem;
-      padding-inline: 0.85em;
-      font-size: 0.9375rem;
-    }
-
-    .nav__item + .nav__item::before {
-      left: -0.5rem;
-      width: 0.5rem;
-    }
-  }
-
-  /* Below this the row wraps, and a dash leading a new line reads wrong. */
-  @media (max-width: 400px) {
-    .nav__item + .nav__item::before {
-      display: none;
+    .nav__link {
+      transition: none;
     }
   }
 </style>

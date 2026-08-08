@@ -1,0 +1,139 @@
+---
+import { phases } from "../../data/m3";
+---
+
+<div class="tabs shell" data-tabs>
+  <div class="tabs__strip" role="tablist" aria-label="Programme phases">
+    {phases.map((phase, i) => (
+      <button
+        class="tabs__tab"
+        type="button"
+        role="tab"
+        id={`tab-${phase.id}`}
+        aria-controls={`panel-${phase.id}`}
+        aria-selected={i === 0 ? "true" : "false"}
+        tabindex={i === 0 ? 0 : -1}
+        data-tab
+      >
+        <span class="tabs__index">({phase.index})</span>
+        <span class="tabs__label">{phase.title}</span>
+      </button>
+    ))}
+  </div>
+
+  {phases.map((phase, i) => (
+    <div
+      class="tabs__panel"
+      id={`panel-${phase.id}`}
+      role="tabpanel"
+      aria-labelledby={`tab-${phase.id}`}
+      hidden={i !== 0}
+      data-panel
+    >
+      {phase.paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+  ))}
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-tabs]")) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-tab]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-panel]"));
+    if (!tabs.length) continue;
+
+    const activate = (i: number, focus = false) => {
+      tabs.forEach((tab, j) => {
+        tab.setAttribute("aria-selected", String(j === i));
+        tab.tabIndex = j === i ? 0 : -1;
+      });
+      panels.forEach((panel, j) => (panel.hidden = j !== i));
+      if (focus) tabs[i]!.focus();
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => activate(i));
+      tab.addEventListener("keydown", (e) => {
+        const delta = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!delta) return;
+        e.preventDefault();
+        activate((i + delta + tabs.length) % tabs.length, true);
+      });
+    });
+  }
+</script>
+
+<style>
+  .tabs {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .tabs__strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    background: var(--hairline-soft);
+    border: 1px solid var(--hairline-soft);
+  }
+
+  .tabs__tab {
+    display: flex;
+    flex: 1 1 12rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: clamp(1rem, 2.2vw, 1.375rem);
+    border: 0;
+    background: var(--bg);
+    color: var(--ink-muted);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .tabs__tab:hover {
+    background: var(--bg-raised);
+  }
+
+  .tabs__tab[aria-selected="true"] {
+    background: var(--bg-raised);
+    color: var(--ink);
+  }
+
+  .tabs__index {
+    color: var(--ink-dim);
+    font-family: var(--mono);
+    font-size: var(--step-label);
+    letter-spacing: 0.12em;
+  }
+
+  .tabs__tab[aria-selected="true"] .tabs__index {
+    color: var(--ink-faint);
+  }
+
+  .tabs__label {
+    font-size: clamp(1.125rem, 1rem + 0.6vw, 1.4375rem);
+    line-height: 1.2;
+  }
+
+  .tabs__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    max-width: 46rem;
+    color: var(--ink-muted);
+    line-height: 1.66;
+  }
+
+  .tabs__panel[hidden] {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tabs__tab {
+      transition: none;
+    }
+  }
+</style>

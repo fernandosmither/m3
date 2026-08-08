@@ -1,0 +1,158 @@
+---
+import { phases } from "../data/m3";
+---
+
+<section class="phases" id="program" aria-labelledby="program-heading">
+  <div class="shell">
+    <h2 class="visually-hidden" id="program-heading">Program</h2>
+
+    <ol class="rail">
+      {phases.map((phase) => (
+        <li class="phase" id={phase.id} data-phase>
+          <div class="phase__marker" aria-hidden="true">
+            <span class="phase__dot"></span>
+          </div>
+
+          <div class="phase__body">
+            <p class="phase__index">({phase.index})</p>
+            <h3 class="phase__title">{phase.title}</h3>
+            {phase.paragraphs.map((p) => (
+              <p class="phase__text">{p}</p>
+            ))}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script>
+  // Progressive enhancement only: without JS every marker stays in its resting
+  // lit state, so the rail still reads correctly.
+  const items = document.querySelectorAll<HTMLElement>("[data-phase]");
+  if (items.length && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    for (const el of items) el.dataset.pending = "true";
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).dataset.active = "true";
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -25% 0px", threshold: 0.15 },
+    );
+
+    for (const el of items) io.observe(el);
+  }
+</script>
+
+<style>
+  .phases {
+    border-block-start: 1px solid var(--hairline-soft);
+    padding-block: clamp(3rem, 8vw, 5.5rem);
+  }
+
+  .rail {
+    display: grid;
+    gap: clamp(2.75rem, 7vw, 4.5rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: phase;
+  }
+
+  .phase {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  /* ---- the rail itself ---- */
+
+  .phase__marker {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 1.25rem;
+  }
+
+  /* Vertical line: drawn per item and extended through the gap so the rail
+     reads continuous, then stopped after the last one. */
+  .phase__marker::before {
+    content: "";
+    position: absolute;
+    inset-block: 0.55rem calc(-1 * clamp(2.75rem, 7vw, 4.5rem) - 0.55rem);
+    inset-inline-start: 50%;
+    width: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 0.3),
+      rgb(255 255 255 / 0.08)
+    );
+  }
+
+  .phase:last-child .phase__marker::before {
+    display: none;
+  }
+
+  .phase__dot {
+    position: relative;
+    z-index: 1;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-block-start: 0.35rem;
+    border-radius: 999px;
+    background: var(--ink);
+    box-shadow: 0 0 0 4px var(--bg), 0 0 12px 2px rgb(255 255 255 / 0.35);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  /* Resting state is lit; JS only dims what has not been reached yet. */
+  .phase[data-pending="true"] .phase__dot {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+
+  .phase[data-active="true"] .phase__dot {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ---- content ---- */
+
+  .phase__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    max-width: 44rem;
+    padding-block-end: 0.25rem;
+  }
+
+  .phase__index {
+    color: var(--ink-dim);
+    font-family: var(--mono);
+    font-size: var(--step-label);
+    letter-spacing: 0.12em;
+  }
+
+  .phase__title {
+    margin-block-end: 0.375rem;
+    font-size: var(--step-title);
+  }
+
+  .phase__text {
+    color: var(--ink-muted);
+    line-height: 1.66;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phase__dot {
+      transition: none;
+    }
+  }
+</style>

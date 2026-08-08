@@ -1,0 +1,87 @@
+---
+import { personas } from "../data/m3";
+---
+
+<section class="personas" id="who" aria-labelledby="who-heading">
+  <div class="shell personas__inner">
+    <h2 class="personas__lead" id="who-heading">{personas.lead}</h2>
+
+    <ol class="roles">
+      {personas.items.map((p) => (
+        <li class="role">
+          <p class="role__index">({p.index})</p>
+          <h3 class="role__name">{p.role}</h3>
+          <p class="role__summary">{p.summary}</p>
+          <p class="role__body">{p.body}</p>
+        </li>
+      ))}
+    </ol>
+
+    <p class="personas__footnote">{personas.footnote}</p>
+  </div>
+</section>
+
+<style>
+  .personas {
+    border-block-start: 1px solid var(--hairline-soft);
+    padding-block: clamp(3rem, 8vw, 5.5rem);
+  }
+
+  .personas__inner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.25rem, 5vw, 3.5rem);
+  }
+
+  .personas__lead {
+    max-width: 22ch;
+    font-size: var(--step-lead);
+    line-height: 1.28;
+  }
+
+  .roles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: clamp(2rem, 4vw, 3rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .role {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding-block-start: 1.25rem;
+    border-block-start: 1px solid var(--hairline);
+  }
+
+  .role__index {
+    color: var(--ink-dim);
+    font-family: var(--mono);
+    font-size: var(--step-label);
+    letter-spacing: 0.12em;
+  }
+
+  .role__name {
+    font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem);
+  }
+
+  .role__summary {
+    color: var(--ink);
+    font-size: 1.0625rem;
+  }
+
+  .role__body {
+    color: var(--ink-muted);
+    line-height: 1.66;
+  }
+
+  .personas__footnote {
+    color: var(--ink-faint);
+    font-family: var(--mono);
+    font-size: var(--step-label);
+    letter-spacing: 0.115em;
+    text-transform: uppercase;
+  }
+</style>

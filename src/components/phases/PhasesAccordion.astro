@@ -1,0 +1,103 @@
+---
+import { phases } from "../../data/m3";
+---
+
+<div class="acc shell">
+  {phases.map((phase, i) => (
+    <details class="acc__item" name="phases" open={i === 0}>
+      <summary class="acc__head">
+        <span class="acc__index">({phase.index})</span>
+        <span class="acc__title">{phase.title}</span>
+        <span class="acc__mark" aria-hidden="true"></span>
+      </summary>
+      <div class="acc__body">
+        {phase.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .acc__item {
+    border-block-end: 1px solid var(--hairline);
+  }
+
+  .acc__item:first-child {
+    border-block-start: 1px solid var(--hairline);
+  }
+
+  .acc__head {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(0.875rem, 2.5vw, 1.75rem);
+    padding-block: clamp(1.125rem, 2.5vw, 1.625rem);
+    cursor: pointer;
+    list-style: none;
+    transition: color 0.2s ease;
+  }
+
+  .acc__head::-webkit-details-marker {
+    display: none;
+  }
+
+  .acc__index {
+    flex: none;
+    color: var(--ink-dim);
+    font-family: var(--mono);
+    font-size: var(--step-label);
+    letter-spacing: 0.12em;
+  }
+
+  .acc__title {
+    flex: 1;
+    font-size: clamp(1.375rem, 1.1rem + 1vw, 1.875rem);
+    line-height: 1.2;
+  }
+
+  /* Plus that becomes a minus — no icon font, no JS. */
+  .acc__mark {
+    position: relative;
+    flex: none;
+    width: 0.875rem;
+    height: 0.875rem;
+    align-self: center;
+  }
+
+  .acc__mark::before,
+  .acc__mark::after {
+    content: "";
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--ink-faint);
+    transition: transform 0.3s ease;
+  }
+
+  .acc__mark::after {
+    transform: rotate(90deg);
+  }
+
+  .acc__item[open] .acc__mark::after {
+    transform: rotate(0deg);
+  }
+
+  .acc__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    max-width: 46rem;
+    margin-inline-start: clamp(0, 2.5vw, 3.25rem);
+    padding-block-end: clamp(1.25rem, 3vw, 2rem);
+    color: var(--ink-muted);
+    line-height: 1.66;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .acc__mark::before,
+    .acc__mark::after {
+      transition: none;
+    }
+  }
+</style>

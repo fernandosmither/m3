@@ -1,0 +1,70 @@
+---
+import { phases } from "../../data/m3";
+---
+
+<div class="spread shell">
+  {phases.map((phase) => (
+    <section class="spread__row">
+      <p class="spread__num" aria-hidden="true">{phase.index}</p>
+      <h3 class="spread__title">{phase.title}</h3>
+      <div class="spread__cols">
+        {phase.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+    </section>
+  ))}
+</div>
+
+<style>
+  .spread__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "num title"
+      "cols cols";
+    align-items: baseline;
+    column-gap: clamp(1rem, 3vw, 2rem);
+    padding-block: clamp(2.25rem, 5vw, 3.5rem);
+    border-block-start: 1px solid var(--hairline);
+  }
+
+  .spread__num {
+    grid-area: num;
+    font-size: clamp(2.5rem, 1.6rem + 3.6vw, 5rem);
+    line-height: 0.85;
+    letter-spacing: -0.03em;
+    color: rgb(255 255 255 / 0.16);
+  }
+
+  .spread__title {
+    grid-area: title;
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+  }
+
+  .spread__cols {
+    grid-area: cols;
+    margin-block-start: clamp(1.25rem, 3vw, 2rem);
+    color: var(--ink-muted);
+    line-height: 1.66;
+  }
+
+  .spread__cols p + p {
+    margin-block-start: 0.875rem;
+  }
+
+  @media (min-width: 56rem) {
+    /* Paragraphs run as newspaper columns so the block stays wide but the
+       measure stays readable. */
+    .spread__cols {
+      columns: 3;
+      column-gap: clamp(1.75rem, 4vw, 3rem);
+    }
+
+    .spread__cols p {
+      break-inside: avoid;
+    }
+
+    .spread__cols p + p {
+      margin-block-start: 0;
+    }
+  }
+</style>

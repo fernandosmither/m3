@@ -1,0 +1,122 @@
+---
+/**
+ * Decorative constellation backdrop: two dotted arcs with marker dots, plus a
+ * fan of radial ticks through the annulus between them.
+ *
+ * The geometry is generated here at build time from the same centre, radii and
+ * seed used in the Figma source, so the two stay in sync by construction
+ * instead of by hand-copied path data.
+ */
+interface Props {
+  glowId?: string;
+}
+
+const { glowId = "dot-glow" } = Astro.props;
+
+const VB = { w: 1440, h: 794 };
+const CX = 720;
+const CY = 520;
+
+const rad = (deg: number) => (deg * Math.PI) / 180;
+const at = (r: number, deg: number): [number, number] => [
+  CX + r * Math.cos(rad(deg)),
+  CY + r * Math.sin(rad(deg)),
+];
+const f = (n: number) => n.toFixed(2);
+
+function arcPath(r: number, a1: number, a2: number): string {
+  const [x1, y1] = at(r, a1);
+  const [x2, y2] = at(r, a2);
+  const large = a2 - a1 > 180 ? 1 : 0;
+  return `M ${f(x1)} ${f(y1)} A ${r} ${r} 0 ${large} 1 ${f(x2)} ${f(y2)}`;
+}
+
+function markerDots(r: number, a1: number, a2: number, step: number) {
+  const out: { cx: number; cy: number }[] = [];
+  for (let a = a1; a <= a2; a += step) {
+    const [cx, cy] = at(r, a);
+    out.push({ cx, cy });
+  }
+  return out;
+}
+
+// Seeded LCG — same seed as the Figma build, so the scatter matches.
+let seed = 20260807;
+const rnd = () => ((seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296);
+
+const ticks: { x1: number; y1: number; x2: number; y2: number; o: number }[] = [];
+for (const r of [415, 472, 529, 586, 643]) {
+  for (let a = 208; a <= 332; a += 6.6) {
+    if (rnd() < 0.12) continue;
+    const ang = a + (rnd() - 0.5) * 3.2;
+    const len = 13 + rnd() * 9;
+    const [x1, y1] = at(r - len / 2, ang);
+    const [x2, y2] = at(r + len / 2, ang);
+    ticks.push({ x1, y1, x2, y2, o: 0.22 + rnd() * 0.5 });
+  }
+}
+
+const arcs = [
+  { d: arcPath(360, 202, 338), o: 0.6 },
+  { d: arcPath(690, 192, 348), o: 0.5 },
+];
+const dots = [...markerDots(360, 205, 336, 11.5), ...markerDots(690, 195, 346, 9.5)];
+---
+
+<svg
+  class="backdrop"
+  viewBox={`0 0 ${VB.w} ${VB.h}`}
+  preserveAspectRatio="xMidYMid slice"
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <filter id={glowId} x="-300%" y="-300%" width="700%" height="700%">
+      <feGaussianBlur stdDeviation="2.2" />
+    </filter>
+  </defs>
+
+  {arcs.map((a) => (
+    <path
+      d={a.d}
+      fill="none"
+      stroke="#fff"
+      stroke-opacity={a.o}
+      stroke-width="1"
+      stroke-linecap="round"
+      stroke-dasharray="1 5"
+    />
+  ))}
+
+  {ticks.map((t) => (
+    <line
+      x1={f(t.x1)}
+      y1={f(t.y1)}
+      x2={f(t.x2)}
+      y2={f(t.y2)}
+      stroke="#fff"
+      stroke-opacity={t.o.toFixed(3)}
+      stroke-width="1"
+      stroke-linecap="round"
+    />
+  ))}
+
+  <g>
+    {dots.map((d) => (
+      <circle cx={f(d.cx)} cy={f(d.cy)} r="3" fill="#fff" opacity="0.45" filter={`url(#${glowId})`} />
+    ))}
+    {dots.map((d) => (
+      <circle cx={f(d.cx)} cy={f(d.cy)} r="1.8" fill="#fff" opacity="0.95" />
+    ))}
+  </g>
+</svg>
+
+<style>
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+</style>

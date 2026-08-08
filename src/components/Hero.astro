@@ -1,0 +1,113 @@
+---
+import HeroBackdrop from "./HeroBackdrop.astro";
+import AsciiBackdrop from "./AsciiBackdrop.astro";
+import Grain from "./Grain.astro";
+import { hero } from "../data/m3";
+
+interface Props {
+  /** "ascii" swaps the vector constellation for its character-grid version. */
+  backdrop?: "svg" | "ascii";
+}
+const { backdrop = "svg" } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true">
+    {backdrop === "ascii" ? <AsciiBackdrop /> : <HeroBackdrop />}
+    <Grain />
+  </div>
+
+  <div class="hero__copy shell">
+    <h1 class="hero__title">{hero.headline}</h1>
+    <p class="hero__sub">{hero.sub}</p>
+    <a class="cta" href={hero.ctaHref}>{hero.ctaLabel}</a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    /* Deliberately under one viewport so the affiliations strip is already
+       peeking above the fold on load. */
+    /* Short enough that the grey grain field ends soon after the CTA and the
+       carousel clears the fold. The strip keeps its own padding.
+       The rem cap is what binds on tall viewports (tablets, 1080p+); without a
+       tight one they accumulate ~200px of empty grey below the CTA. */
+    min-height: min(calc(70svh - 5px), 38rem);
+    /* Heavier top pad: the arc fills the upper half, so the copy sits just
+       below true centre. */
+    padding-block: clamp(7rem, 16vh, 10rem) clamp(3rem, 7vh, 4.5rem);
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero__copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+    text-align: center;
+  }
+
+  .hero__title {
+    max-width: 16ch;
+    font-size: var(--step-display);
+    letter-spacing: -0.014em;
+  }
+
+  .hero__sub {
+    max-width: 44ch;
+    color: var(--ink-muted);
+    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+    line-height: 1.62;
+  }
+
+  .cta {
+    margin-block-start: clamp(0.5rem, 2vw, 1.25rem);
+    padding: 0.875rem 1.75rem;
+    border: 1px solid rgb(255 255 255 / 0.22);
+    border-radius: 999px;
+    color: rgb(255 255 255 / 0.88);
+    font-family: var(--mono);
+    font-size: 0.71875rem;
+    letter-spacing: 0.081em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+  }
+
+  .cta:hover {
+    border-color: rgb(255 255 255 / 0.45);
+    background: rgb(255 255 255 / 0.05);
+    color: #fff;
+  }
+
+  /* Phones get a shorter section and slightly tighter padding, so the copy sits
+     a touch higher and the strip still reaches the first screen. */
+  @media (max-width: 48rem) {
+    .hero {
+      /* Short enough that the logo row clears the phone's bottom browser bar.
+         At 76svh the strip started at ~88% and only a sliver showed. */
+      min-height: min(calc(62svh - 5px), 34rem);
+      padding-block: clamp(5rem, 14vh, 7rem) clamp(2.5rem, 6vh, 3.5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta {
+      transition: none;
+    }
+  }
+</style>

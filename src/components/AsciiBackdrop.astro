@@ -1,0 +1,170 @@
+---
+/**
+ * ASCII rendition of the constellation backdrop.
+ *
+ * Same centre, radii, tick rings and seed as `HeroBackdrop.astro` — the
+ * geometry is rasterised onto a character grid at build time rather than being
+ * hand-drawn, so the two versions stay in step if the composition changes.
+ *
+ * Rendered as three overlaid <pre> layers (ticks / arcs / dots) so each can
+ * carry its own colour without wrapping ~10k characters in spans.
+ */
+interface Props {
+  cols?: number;
+  rows?: number;
+}
+const { cols = 198, rows = 50 } = Astro.props;
+
+// The hero clips the 1440x794 artwork to 1440x608, cropping 93px off each end,
+// which is why the centre sits higher here than in the SVG version.
+const W = 1440;
+const H = 608;
+const CX = 720;
+const CY = 427;
+
+const rad = (d: number) => (d * Math.PI) / 180;
+const cellW = W / cols;
+const cellH = H / rows;
+
+type Seg = { x1: number; y1: number; x2: number; y2: number };
+
+let seed = 20260807;
+const rnd = () => ((seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296);
+
+const ticks: Seg[] = [];
+for (const r of [415, 472, 529, 586, 643]) {
+  for (let a = 208; a <= 332; a += 6.6) {
+    if (rnd() < 0.12) continue;
+    const ang = a + (rnd() - 0.5) * 3.2;
+    const len = 13 + rnd() * 9;
+    ticks.push({
+      x1: CX + (r - len / 2) * Math.cos(rad(ang)),
+      y1: CY + (r - len / 2) * Math.sin(rad(ang)),
+      x2: CX + (r + len / 2) * Math.cos(rad(ang)),
+      y2: CY + (r + len / 2) * Math.sin(rad(ang)),
+    });
+  }
+}
+
+const dots: { x: number; y: number }[] = [];
+for (const [R, a1, a2, step] of [
+  [360, 205, 336, 11.5],
+  [690, 195, 346, 9.5],
+] as const) {
+  for (let a = a1; a <= a2; a += step) {
+    dots.push({ x: CX + R * Math.cos(rad(a)), y: CY + R * Math.sin(rad(a)) });
+  }
+}
+
+const arcs = [
+  { r: 360, a1: 202, a2: 338 },
+  { r: 690, a1: 192, a2: 348 },
+];
+
+function distToSeg(px: number, py: number, s: Seg) {
+  const dx = s.x2 - s.x1;
+  const dy = s.y2 - s.y1;
+  const len2 = dx * dx + dy * dy;
+  const t = len2 === 0 ? 0 : Math.max(0, Math.min(1, ((px - s.x1) * dx + (py - s.y1) * dy) / len2));
+  const cx = s.x1 + t * dx;
+  const cy = s.y1 + t * dy;
+  return Math.hypot(px - cx, py - cy);
+}
+
+/** Slope of the segment picks the glyph, so the fan keeps its direction. */
+function tickGlyph(s: Seg) {
+  const dx = s.x2 - s.x1;
+  const dy = s.y2 - s.y1;
+  const deg = ((Math.atan2(dy, dx) * 180) / Math.PI + 180) % 180;
+  if (deg < 22.5 || deg >= 157.5) return "-";
+  if (deg < 67.5) return "\\";
+  if (deg < 112.5) return "|";
+  return "/";
+}
+
+const tickRows: string[] = [];
+const arcRows: string[] = [];
+const dotRows: string[] = [];
+
+for (let row = 0; row < rows; row += 1) {
+  const py = (row + 0.5) * cellH;
+  let tickLine = "";
+  let arcLine = "";
+  let dotLine = "";
+
+  for (let col = 0; col < cols; col += 1) {
+    const px = (col + 0.5) * cellW;
+    const dx = px - CX;
+    const dy = py - CY;
+    const dist = Math.hypot(dx, dy);
+    let angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+    if (angle < 0) angle += 360;
+
+    // Marker dots win over everything else.
+    const dot = dots.some((d) => Math.hypot(px - d.x, py - d.y) < cellW * 0.75);
+    dotLine += dot ? "*" : " ";
+
+    const onArc =
+      !dot &&
+      arcs.some((a) => Math.abs(dist - a.r) < cellW * 0.6 && angle >= a.a1 && angle <= a.a2);
+    arcLine += onArc ? "." : " ";
+
+    let tick = " ";
+    if (!dot && !onArc) {
+      const hit = ticks.find((s) => distToSeg(px, py, s) < cellW * 0.55);
+      if (hit) tick = tickGlyph(hit);
+    }
+    tickLine += tick;
+  }
+
+  tickRows.push(tickLine.replace(/\s+$/, ""));
+  arcRows.push(arcLine.replace(/\s+$/, ""));
+  dotRows.push(dotLine.replace(/\s+$/, ""));
+}
+
+const layers = [
+  { name: "ticks", cls: "ascii__layer ascii__layer--ticks", text: tickRows.join("\n") },
+  { name: "arcs", cls: "ascii__layer ascii__layer--arcs", text: arcRows.join("\n") },
+  { name: "dots", cls: "ascii__layer ascii__layer--dots", text: dotRows.join("\n") },
+];
+---
+
+<div class="ascii" style={`--ascii-cols:${cols}`} aria-hidden="true">
+  {layers.map((l) => <pre class={l.cls}>{l.text}</pre>)}
+</div>
+
+<style>
+  .ascii {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    /* One character advance is 0.6em in IBM Plex Mono, so this makes the grid
+       span exactly the viewport width at any size. */
+    --ascii-size: calc(100vw / var(--ascii-cols) / 0.6);
+  }
+
+  .ascii__layer {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    font-family: var(--mono);
+    font-size: var(--ascii-size);
+    line-height: 1;
+    white-space: pre;
+    user-select: none;
+  }
+
+  .ascii__layer--ticks {
+    color: rgb(255 255 255 / 0.28);
+  }
+
+  .ascii__layer--arcs {
+    color: rgb(255 255 255 / 0.5);
+  }
+
+  .ascii__layer--dots {
+    color: rgb(255 255 255 / 0.92);
+    text-shadow: 0 0 6px rgb(255 255 255 / 0.5);
+  }
+</style>
