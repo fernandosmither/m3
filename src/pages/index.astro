@@ -8,7 +8,7 @@ import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
 import Marquee from "../components/Marquee.astro";
 import Stats from "../components/Stats.astro";
-import PhasesReview from "../components/PhasesReview.astro";
+import Timeline from "../components/Timeline.astro";
 import Personas from "../components/Personas.astro";
 import Problems from "../components/Problems.astro";
 import Notes from "../components/Notes.astro";
@@ -29,11 +29,6 @@ import Footer from "../components/Footer.astro";
       content="A three-month, salary-matched fellowship for senior security people moving into AI security. A week in London to find the problem, then three paid months to work on it."
     />
   </head>
-  <!-- TEMPORARY: lets ?p=1..5 preview phase treatments. Remove once one is chosen. -->
-  <script is:inline>
-    const p = new URLSearchParams(location.search).get("p");
-    if (p) document.documentElement.dataset.phases = p;
-  </script>
   <body>
     <Nav />
     <main>
@@ -42,7 +37,7 @@ import Footer from "../components/Footer.astro";
         <Marquee />
       </div>
       <Stats />
-      <PhasesReview />
+      <Timeline />
       <Personas />
       <Problems />
       <Notes />

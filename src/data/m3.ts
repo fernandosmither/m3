@@ -52,36 +52,34 @@ export const stats = [
   { value: "6", unit: "people" },
 ];
 
-export const phases = [
+/**
+ * Draft week/month tags pending a real schedule — worth a read-through
+ * before this goes live.
+ */
+export const timeline = [
   {
     id: "week-one",
-    index: "1",
     title: "Week one",
-    paragraphs: [
-      "A week in person in London. Mornings are research blocks: you read the field and write down what is missing.",
-      "Afternoons are discussion sprints. You bring a hypothesis and a small group tries to break it, with field experts there to red-team the parts you cannot see.",
-      "Themed days cover governance, treaty verification, field building, infrastructure security and agent security. The cohort votes on a wildcard day.",
-    ],
+    when: "week 1 · London",
+    body: "In person. Mornings are research blocks: you read the field and write down what is missing. Afternoons are discussion sprints, with field experts there to red-team the parts you cannot see.",
   },
   {
-    id: "build-phase",
-    index: "2",
-    title: "Build phase",
-    paragraphs: [
-      "Three months remote, alongside your job. You commit between ten and forty hours a week to your own project and you get paid for them, up to $100 an hour.",
-      "A weekly standup with three peers and one facilitator keeps the accountability tight. Nobody directs your work.",
-      "Month one goes to research, month two to preliminary results, and by month three you decide what the work becomes.",
-    ],
+    id: "build",
+    title: "Build",
+    when: "weeks 2–5 · remote",
+    body: "A paid month on your own project, alongside your job, at your rate up to $100 an hour. A weekly standup with three peers and one facilitator keeps the accountability tight. Nobody directs your work.",
   },
   {
     id: "demo-day",
-    index: "3",
     title: "Demo day",
-    paragraphs: [
-      "You present what you built to the cohort and to the people who can move it forward.",
-      "Papers get routed to workshops and arXiv referrals, tools go to the open source community, and new orgs get introductions to funders.",
-      "Projects that need more time can extend by two paid months.",
-    ],
+    when: "week 6",
+    body: "You present what you built to the cohort and to the people who can move it forward. Papers get routed to workshops and arXiv referrals, tools go to the open source community, and new orgs get introductions to funders.",
+  },
+  {
+    id: "extension",
+    title: "Extension",
+    when: "months 2–3 · by invitation",
+    body: "Promising projects get two more financed months to keep going — same rate, same cadence — and the same routing onward when the work is ready.",
   },
 ];
 
