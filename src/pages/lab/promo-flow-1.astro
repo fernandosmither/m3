@@ -1,0 +1,217 @@
+---
+/**
+ * Lab: LinkedIn promo banner, 1200×627 — journey-led.
+ *
+ * The program's timeline is the centerpiece: four serif stops joined by the
+ * site's long arrows inside a hairline band, the headline above it under the
+ * constellation arch, the deadline closing the frame below.
+ *
+ * Screenshot the `.stage` element at exactly 1200×627.
+ */
+import "@fontsource-variable/newsreader";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "../../styles/global.css";
+
+import HeroBackdrop from "../../components/HeroBackdrop.astro";
+import Grain from "../../components/Grain.astro";
+
+const stops = [
+  { name: "Week one", when: "week 1 · London" },
+  { name: "Build", when: "weeks 2–5 · remote" },
+  { name: "Demo day", when: "week 6 · Oct 3" },
+  { name: "Extension", when: "months 2–3 · by invitation" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1200" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="robots" content="noindex" />
+    <title>Lab — promo flow 1</title>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="stage__bg" aria-hidden="true">
+        <div class="stage__arch">
+          <HeroBackdrop />
+        </div>
+        <Grain />
+      </div>
+
+      <div class="stage__content">
+        <header class="masthead">
+          <p class="eyebrow masthead__brand">
+            <img class="masthead__mark" src="/icon.svg" alt="" width="34" height="34" />
+            <span>A salary-matched fellowship for senior security people</span>
+          </p>
+          <p class="eyebrow">Constellation · Kairos · AISB</p>
+        </header>
+
+        <div class="lede">
+          <h1 class="lede__title">Move into AI security.</h1>
+          <p class="lede__sub">
+            A week in London to scope your project, then up to three paid months to work on it.
+          </p>
+        </div>
+
+        <ol class="flow">
+          {stops.map((stop) => (
+            <li class="stop">
+              <p class="stop__name">{stop.name}</p>
+              <p class="stop__when">{stop.when}</p>
+            </li>
+          ))}
+        </ol>
+
+        <footer class="close">
+          <p class="close__deadline">Apply by Aug 14.</p>
+          <p class="eyebrow close__site">m3fellowship.com</p>
+        </footer>
+      </div>
+    </div>
+  </body>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* Keep the dev toolbar out of screenshots. */
+    :global(astro-dev-toolbar) {
+      display: none !important;
+    }
+
+    .stage {
+      position: relative;
+      isolation: isolate;
+      width: 1200px;
+      height: 627px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .stage__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    /* Nudge the arch up so its dotted endpoints clear the timeline band. */
+    .stage__arch {
+      position: absolute;
+      inset: 0;
+      transform: translateY(-20px);
+    }
+
+    .stage__content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 42px 64px 44px;
+    }
+
+    .masthead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .masthead__brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .masthead__mark {
+      display: block;
+      width: 34px;
+      height: 34px;
+    }
+
+    .lede {
+      text-align: center;
+    }
+
+    .lede__title {
+      font-size: 64px;
+      letter-spacing: -0.014em;
+      line-height: 1.08;
+    }
+
+    .lede__sub {
+      margin-block-start: 15px;
+      color: var(--ink-muted);
+      font-size: 20px;
+      line-height: 1.5;
+    }
+
+    /* The journey band: the site's timeline language, condensed to one line. */
+    .flow {
+      --flow-gap: 44px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--flow-gap);
+      margin: 0;
+      padding: 26px 0;
+      list-style: none;
+      border-block: 1px solid var(--hairline-soft);
+    }
+
+    .stop {
+      position: relative;
+    }
+
+    .stop + .stop::before {
+      content: "⟶";
+      position: absolute;
+      top: 0.12em;
+      left: calc(var(--flow-gap) / -2);
+      transform: translateX(-50%);
+      color: var(--ink-dim);
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .stop__name {
+      font-size: 29px;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+    }
+
+    .stop__when {
+      margin-block-start: 9px;
+      color: var(--ink-faint);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .close {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .close__deadline {
+      font-size: 30px;
+      letter-spacing: -0.01em;
+    }
+
+    .close__site {
+      color: var(--ink-muted);
+    }
+  </style>
+</html>

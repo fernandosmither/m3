@@ -1,0 +1,37 @@
+# M3
+
+> M3 is a three-month, salary-matched fellowship for senior security people
+> moving into AI security. No mentors — fellows set their own direction.
+> A collaboration between Constellation, Kairos and AISB (the AI Security
+> Bootcamp team). Contact: fernando@m3fellowship.com
+
+## The program
+
+- Applications close Aug 14, 2026. Apply: https://airtable.com/apphv1q8pIb4a411d/pagICxIRB4MH1TmRA/form
+- Week one: in person in London — research blocks, discussion sprints,
+  field experts red-teaming project ideas.
+- Build (weeks 2–5): remote, alongside the fellow's job, ~10 hrs/week,
+  paid at the fellow's rate up to $100/hour.
+- Demo day: Oct 3, 2026 — projects presented and routed onward (papers to
+  workshops and arXiv referrals, tools to open source, new orgs to funders).
+- Extension (months 2–3, by invitation): promising projects get two more
+  financed months.
+- Cohort size: 6 people.
+
+## Who it is for
+
+- The researcher: has a question the field has not answered.
+- The founder: sees a gap worth an organisation.
+- The field builder: wants to widen the door for others.
+
+## Focus areas (suggestions, off-list welcome)
+
+Compute governance, inference verification, model attestation, hardware
+security, securing model weights, treaty verification, agent security,
+authorization against misuse.
+
+## Pages
+
+- [Home](https://m3fellowship.com/): program, timeline, FAQ, application.
+- [Privacy Policy](https://m3fellowship.com/privacy/)
+- [Terms of Use](https://m3fellowship.com/terms/)

@@ -3,6 +3,52 @@ import "@fontsource-variable/newsreader";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "../styles/global.css";
+import newsreaderWoff2 from "@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url";
+import plexMonoWoff2 from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
+import { applyUrl } from "../data/m3";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "M3",
+    alternateName: "M3 Fellowship",
+    url: "https://m3fellowship.com/",
+    logo: "https://m3fellowship.com/icon.svg",
+    email: "fernando@m3fellowship.com",
+    description:
+      "A salary-matched fellowship for senior security people moving into AI security. A collaboration between Constellation, Kairos and AISB.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: "M3 Fellowship — AI security (salary-matched, part-time)",
+    description:
+      "<p>A three-month, salary-matched fellowship for senior security people moving into AI security. A week in person in London to scope your project, then a paid month of remote work alongside your job (about ten hours a week, at your rate up to $100 an hour), demo day on Oct 3, and a two-month financed extension for promising projects. No mentors — you set the direction. Six people per cohort. A collaboration between Constellation, Kairos and AISB.</p>",
+    datePosted: "2026-08-09",
+    validThrough: "2026-08-14T23:59:00-07:00",
+    employmentType: ["TEMPORARY", "PART_TIME"],
+    hiringOrganization: {
+      "@type": "Organization",
+      name: "M3",
+      sameAs: "https://m3fellowship.com/",
+      logo: "https://m3fellowship.com/icon.svg",
+    },
+    jobLocationType: "TELECOMMUTE",
+    applicantLocationRequirements: { "@type": "Country", name: "Anywhere" },
+    jobLocation: {
+      "@type": "Place",
+      address: { "@type": "PostalAddress", addressLocality: "London", addressCountry: "GB" },
+    },
+    baseSalary: {
+      "@type": "MonetaryAmount",
+      currency: "USD",
+      value: { "@type": "QuantitativeValue", maxValue: 100, unitText: "HOUR" },
+    },
+    url: "https://m3fellowship.com/",
+    directApply: false,
+  },
+];
 
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
@@ -54,6 +100,9 @@ import Footer from "../components/Footer.astro";
       content="A salary-matched fellowship for senior security people. A week in London to scope your project, then up to three paid months to work on it."
     />
     <meta name="twitter:image" content="https://m3fellowship.com/og.png" />
+    <link rel="preload" href={newsreaderWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={plexMonoWoff2} as="font" type="font/woff2" crossorigin />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
     <Nav />

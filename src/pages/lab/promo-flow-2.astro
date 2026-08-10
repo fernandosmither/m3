@@ -1,0 +1,173 @@
+---
+/**
+ * Lab: LinkedIn promo banner, 1200×627 — deadline-led.
+ *
+ * The journey descends the frame as a stepped diagonal — four stops, each a
+ * step down and to the right, joined by the site's long arrows tilted along
+ * the slope. The deadline owns the top-right corner at display size; the
+ * starfield backdrop's shallow arcs sweep with the diagonal.
+ *
+ * Screenshot the `.stage` element at exactly 1200×627.
+ */
+import "@fontsource-variable/newsreader";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "../../styles/global.css";
+
+import FooterBackdrop from "../../components/FooterBackdrop.astro";
+import Grain from "../../components/Grain.astro";
+
+const stops = [
+  { name: "Week one", when: "week 1 · London", x: 64, y: 252 },
+  { name: "Build", when: "weeks 2–5 · remote", x: 322, y: 330 },
+  { name: "Demo day", when: "week 6 · Oct 3", x: 580, y: 408 },
+  { name: "Extension", when: "months 2–3 · by invitation", x: 838, y: 486 },
+];
+
+/* One tilted arrow between each pair of stops, sitting on the slope. */
+const arrows = stops.slice(0, -1).map((s) => ({ x: s.x + 180, y: s.y + 38 }));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1200" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="robots" content="noindex" />
+    <title>Lab — promo flow 2</title>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="stage__bg" aria-hidden="true">
+        <FooterBackdrop />
+        <Grain />
+      </div>
+
+      <div class="scene">
+        <img class="mark" src="/icon.svg" alt="" width="44" height="44" />
+
+        <div class="deadline">
+          <p class="eyebrow">Applications close</p>
+          <p class="deadline__date">Aug 14.</p>
+          <p class="deadline__line">Move into AI security.</p>
+        </div>
+
+        {stops.map((stop) => (
+          <div class="stop" style={`left:${stop.x}px; top:${stop.y}px;`}>
+            <p class="stop__name">{stop.name}</p>
+            <p class="stop__when">{stop.when}</p>
+          </div>
+        ))}
+
+        {arrows.map((a) => (
+          <span class="arrow" style={`left:${a.x}px; top:${a.y}px;`} aria-hidden="true">⟶</span>
+        ))}
+
+        <p class="eyebrow foot">
+          A salary-matched fellowship · up to $100/hour · m3fellowship.com
+        </p>
+      </div>
+    </div>
+  </body>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* Keep the dev toolbar out of screenshots. */
+    :global(astro-dev-toolbar) {
+      display: none !important;
+    }
+
+    .stage {
+      position: relative;
+      isolation: isolate;
+      width: 1200px;
+      height: 627px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .stage__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .mark {
+      position: absolute;
+      top: 50px;
+      left: 64px;
+      display: block;
+      width: 44px;
+      height: 44px;
+    }
+
+    .deadline {
+      position: absolute;
+      top: 46px;
+      right: 64px;
+      text-align: right;
+    }
+
+    .deadline__date {
+      margin-block-start: 14px;
+      font-size: 96px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .deadline__line {
+      margin-block-start: 14px;
+      color: var(--ink-muted);
+      font-size: 23px;
+      letter-spacing: -0.01em;
+    }
+
+    /* The stepped journey: same stop anatomy as the site's timeline. */
+    .stop {
+      position: absolute;
+    }
+
+    .stop__name {
+      font-size: 30px;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .stop__when {
+      margin-block-start: 9px;
+      color: var(--ink-faint);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .arrow {
+      position: absolute;
+      transform: rotate(17deg);
+      color: var(--ink-dim);
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .foot {
+      position: absolute;
+      bottom: 46px;
+      left: 64px;
+      color: var(--ink-faint);
+    }
+  </style>
+</html>
