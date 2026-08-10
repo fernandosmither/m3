@@ -176,6 +176,10 @@ export const faq = {
       q: "Who is behind M3?",
       a: "A collaboration between Constellation, Kairos and AISB. Anything this page does not answer: fernando@m3fellowship.com.",
     },
+    {
+      q: "What's your relationship with AISB?",
+      a: "M3 is a collaboration between Kairos, Constellation and AISB. M3's first in-person week runs alongside AISB London, giving fellows from both programs access to each other.",
+    },
   ],
 };
 
