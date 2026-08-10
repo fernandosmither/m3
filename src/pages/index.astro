@@ -37,8 +37,10 @@ import Footer from "../components/Footer.astro";
   <body>
     <Nav />
     <main>
-      <Hero />
-      <Marquee />
+      <div class="fold">
+        <Hero />
+        <Marquee />
+      </div>
       <Stats />
       <PhasesReview />
       <Personas />
@@ -47,5 +49,17 @@ import Footer from "../components/Footer.astro";
       <FAQ />
     </main>
     <Footer />
+  <style>
+    /* The first screen is a composition: the hero takes whatever the viewport
+       gives it and the affiliations strip closes the fold, at every size. */
+    .fold {
+      display: grid;
+      /* minmax(0, …) so the marquee's intrinsic track width can't blow the
+         column out past the viewport. */
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: 1fr auto;
+      min-height: 100svh;
+    }
+  </style>
   </body>
 </html>

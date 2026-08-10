@@ -31,13 +31,8 @@ const { backdrop = "svg" } = Astro.props;
     display: grid;
     justify-items: center;
     align-content: center;
-    /* Deliberately under one viewport so the affiliations strip is already
-       peeking above the fold on load. */
-    /* Short enough that the grey grain field ends soon after the CTA and the
-       carousel clears the fold. The strip keeps its own padding.
-       The rem cap is what binds on tall viewports (tablets, 1080p+); without a
-       tight one they accumulate ~200px of empty grey below the CTA. */
-    min-height: min(calc(70svh - 5px), 38rem);
+    /* Height comes from the .fold grid in index.astro: the hero takes the
+       viewport space left over after the affiliations strip. */
     /* Heavier top pad: the arc fills the upper half, so the copy sits just
        below true centre. */
     padding-block: clamp(7rem, 16vh, 10rem) clamp(3rem, 7vh, 4.5rem);
@@ -94,13 +89,9 @@ const { backdrop = "svg" } = Astro.props;
     color: #fff;
   }
 
-  /* Phones get a shorter section and slightly tighter padding, so the copy sits
-     a touch higher and the strip still reaches the first screen. */
+  /* Phones get slightly tighter padding so the copy sits a touch higher. */
   @media (max-width: 48rem) {
     .hero {
-      /* Short enough that the logo row clears the phone's bottom browser bar.
-         At 76svh the strip started at ~88% and only a sliver showed. */
-      min-height: min(calc(62svh - 5px), 34rem);
       padding-block: clamp(5rem, 14vh, 7rem) clamp(2.5rem, 6vh, 3.5rem);
     }
   }
