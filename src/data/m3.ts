@@ -9,7 +9,7 @@ export const nav = [
 export const hero = {
   headline: "Move into AI security.",
   sub: "A three-month, salary-matched fellowship for senior security people. No mentors. You set the direction.",
-  ctaLabel: "Apply by 27 Oct",
+  ctaLabel: "Apply by Oct 27",
   ctaHref: "#apply",
 };
 
@@ -88,7 +88,7 @@ export const timeline = [
  * goes live.
  */
 export const personas = {
-  lead: "The fellowship is built for three people.",
+  lead: "The three types of fellows we're looking for.",
   items: [
     {
       index: "1",
@@ -174,16 +174,25 @@ export const faq = {
     },
     {
       q: "Who is behind M3?",
-      a: "A collaboration between Constellation, Kairos and AISB. Anything this page does not answer: hello@m3.org.",
+      a: "A collaboration between Constellation, Kairos and AISB. Anything this page does not answer: fernando@m3fellowship.com.",
     },
   ],
 };
 
 export const footer = {
   headline: "Find a problem worth three months.",
-  ctaLabel: "Apply by 27 Oct",
+  ctaLabel: "Apply by Oct 27",
   ctaHref: "#apply",
   facts: ["A week in London", "Three months remote", "Salary matched"],
-  legal: "© 2026 — A collaboration between Constellation, Kairos and AISB",
-  email: "hello@m3.org",
+  legalPrefix: "© 2026 — A collaboration between",
+  orgs: [
+    { name: "Constellation", href: "https://constellation.org/" },
+    { name: "Kairos", href: "https://kairos-project.org/" },
+    { name: "AISB", href: "https://aisb.dev/" },
+  ],
+  legalLinks: [
+    { label: "Privacy", href: "/privacy/" },
+    { label: "Terms", href: "/terms/" },
+  ],
+  email: "fernando@m3fellowship.com",
 };
