@@ -3,7 +3,8 @@
 Landing page for M3 — a three-month, salary-matched fellowship for senior
 security people moving into AI security.
 
-Live at [m3.fdosmith.dev](https://m3.fdosmith.dev). Originally started at
+Live at [m3fellowship.com](https://m3fellowship.com) (served via Cloudflare;
+the origin is m3.fdosmith.dev on oraclawd — keep both). Originally started at
 [ignaciobernardo/m3-website](https://github.com/ignaciobernardo/m3-website);
 this repo is the canonical home going forward.
 
