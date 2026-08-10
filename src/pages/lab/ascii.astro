@@ -11,7 +11,7 @@ import "../../styles/global.css";
 import Nav from "../../components/Nav.astro";
 import Hero from "../../components/Hero.astro";
 import Marquee from "../../components/Marquee.astro";
-import Stats from "../../components/Stats.astro";
+import Timeline from "../../components/Timeline.astro";
 ---
 
 <!doctype html>
@@ -26,9 +26,20 @@ import Stats from "../../components/Stats.astro";
   <body>
     <Nav />
     <main>
-      <Hero backdrop="ascii" />
-      <Marquee />
-      <Stats />
+      <div class="fold">
+        <Hero backdrop="ascii" />
+        <Marquee />
+      </div>
+      <Timeline />
     </main>
   </body>
+  <style>
+    /* Same first-screen composition as the production page. */
+    .fold {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: 1fr auto;
+      min-height: 100svh;
+    }
+  </style>
 </html>
