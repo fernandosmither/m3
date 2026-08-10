@@ -7,7 +7,7 @@ export const nav = [
 ];
 
 export const hero = {
-  headline: "Move into AI security",
+  headline: "Move into AI security.",
   sub: "A three-month, salary-matched fellowship for senior security people. No mentors. You set the direction.",
   ctaLabel: "Apply by 27 Oct",
   ctaHref: "#apply",
@@ -43,11 +43,11 @@ export const affiliations = {
 };
 
 export const lead =
-  "A week in London to find the problem, then three paid months to work on it.";
+  "A week in London to scope your project, then up to three paid months to work on it.";
 
 export const stats = [
-  { value: "3", unit: "months" },
-  { value: "10–40", unit: "hrs/week" },
+  { value: "1–3", unit: "months" },
+  { value: "10", unit: "hrs/week" },
   { value: "$100", unit: "/hour cap" },
   { value: "6", unit: "people" },
 ];
@@ -156,7 +156,7 @@ export const faq = {
   items: [
     {
       q: "How does the pay work?",
-      a: "You are paid for the hours you put into your project, at your rate, capped at $100 an hour. You choose between ten and forty hours a week, for the three months of the build phase.",
+      a: "You are paid for the hours you put into your project, at your rate, capped at $100 an hour. The build phase starts with one paid month; projects that need more time can extend by two more.",
     },
     {
       q: "Do I have to quit my job?",
