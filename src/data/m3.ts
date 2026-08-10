@@ -75,7 +75,7 @@ export const timeline = [
   {
     id: "demo-day",
     title: "Demo day",
-    when: "week 6",
+    when: "week 6 · Oct 3",
     body: "You present what you built to the cohort and to the people who can move it forward. Papers get routed to workshops and arXiv referrals, tools go to the open source community, and new orgs get introductions to funders.",
   },
   {
