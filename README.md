@@ -3,8 +3,8 @@
 Landing page for M3 — a three-month, salary-matched fellowship for senior
 security people moving into AI security.
 
-Live at [m3fellowship.com](https://m3fellowship.com) (served via Cloudflare;
-the origin is m3.fdosmith.dev on oraclawd — keep both). Originally started at
+Live at [m3fellowship.com](https://m3fellowship.com), served by a Cloudflare
+Worker (static assets). Originally started at
 [ignaciobernardo/m3-website](https://github.com/ignaciobernardo/m3-website);
 this repo is the canonical home going forward.
 
@@ -19,9 +19,6 @@ this repo is the canonical home going forward.
 
 ## Deploy
 
-Static output only — build and rsync `dist/` to the web root:
-
-```sh
-npm run build
-rsync -az --delete --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r dist/ oraclawd:/var/www/m3/
-```
+Push to `main`. Cloudflare Workers Builds runs `npm run build` and
+`npx wrangler deploy` (see `wrangler.jsonc`); non-production branches get
+preview versions via `npx wrangler versions upload`.
