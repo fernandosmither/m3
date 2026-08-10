@@ -9,7 +9,7 @@ export const nav = [
 export const hero = {
   headline: "Move into AI security.",
   sub: "A three-month, salary-matched fellowship for senior security people. No mentors. You set the direction.",
-  ctaLabel: "Apply by Oct 27",
+  ctaLabel: "Apply by Aug 14",
   ctaHref: "#apply",
 };
 
@@ -185,7 +185,7 @@ export const faq = {
 
 export const footer = {
   headline: "Find a problem worth three months.",
-  ctaLabel: "Apply by Oct 27",
+  ctaLabel: "Apply by Aug 14",
   ctaHref: "#apply",
   facts: ["A week in London", "Three months remote", "Salary matched"],
   legalPrefix: "© 2026 — A collaboration between",
