@@ -6,11 +6,14 @@ export const nav = [
   { label: "Apply", href: "#apply" },
 ];
 
+export const applyUrl =
+  "https://airtable.com/apphv1q8pIb4a411d/pagICxIRB4MH1TmRA/form";
+
 export const hero = {
   headline: "Move into AI security.",
   sub: "A three-month, salary-matched fellowship for senior security people. No mentors. You set the direction.",
   ctaLabel: "Apply by Aug 14",
-  ctaHref: "#apply",
+  ctaHref: applyUrl,
 };
 
 export const affiliations = {
@@ -186,7 +189,7 @@ export const faq = {
 export const footer = {
   headline: "Find a problem worth three months.",
   ctaLabel: "Apply by Aug 14",
-  ctaHref: "#apply",
+  ctaHref: applyUrl,
   facts: ["A week in London", "Three months remote", "Salary matched"],
   legalPrefix: "© 2026 — A collaboration between",
   orgs: [

@@ -20,7 +20,7 @@ const { backdrop = "svg" } = Astro.props;
   <div class="hero__copy shell">
     <h1 class="hero__title">{hero.headline}</h1>
     <p class="hero__sub">{hero.sub}</p>
-    <a class="cta" href={hero.ctaHref}>{hero.ctaLabel}</a>
+    <a class="cta" href={hero.ctaHref} target="_blank" rel="noopener">{hero.ctaLabel}</a>
   </div>
 </section>
 
