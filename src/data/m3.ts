@@ -2,11 +2,12 @@ export const nav = [
   { label: "Program", href: "#program" },
   { label: "Problems", href: "#problems" },
   { label: "Scope", href: "#scope" },
+  { label: "FAQ", href: "#faq" },
   { label: "Apply", href: "#apply" },
 ];
 
 export const hero = {
-  headline: "Move into AI security.",
+  headline: "Move into AI security",
   sub: "A three-month, salary-matched fellowship for senior security people. No mentors. You set the direction.",
   ctaLabel: "Apply by 27 Oct",
   ctaHref: "#apply",
@@ -14,7 +15,31 @@ export const hero = {
 
 export const affiliations = {
   label: "Past AISB participants have been affiliated with",
-  logos: ["DeepMind", "Anthropic", "OpenAI", "SASH"],
+  logos: [
+    { name: "Amazon Web Services", file: "amazon-web-services-aws.svg" },
+    { name: "Apollo Research", file: "apollo-research.svg" },
+    { name: "Apple", file: "apple.svg" },
+    { name: "CERN", file: "cern.svg" },
+    { name: "Epoch AI", file: "epoch-ai.svg" },
+    { name: "FGV", file: "fgv.png" },
+    { name: "Fraunhofer-Gesellschaft", file: "fraunhofer-gesellschaft.svg" },
+    { name: "Georgia Tech", file: "georgia-institute-of-technology.svg" },
+    { name: "Google", file: "google.svg" },
+    { name: "University of Helsinki", file: "university-of-helsinki.svg" },
+    { name: "INSA Lyon", file: "insa-lyon.svg" },
+    { name: "Jane Street", file: "jane-street.svg" },
+    { name: "King's College London", file: "kings-college-london.png" },
+    { name: "Meta", file: "meta.svg" },
+    { name: "Microsoft", file: "microsoft.svg" },
+    { name: "OpenAI", file: "openai.svg" },
+    { name: "Safer AI", file: "safer-ai.svg" },
+    { name: "Santa Fe Institute", file: "santa-fe-institute.svg" },
+    { name: "Stanford University", file: "stanford-university.svg" },
+    { name: "UC San Diego", file: "university-of-california-san-diego.png" },
+    { name: "Università di Bologna", file: "university-of-bologna.svg" },
+    { name: "University of Oxford", file: "university-of-oxford.png" },
+    { name: "University of Washington", file: "university-of-washington.png" },
+  ],
 };
 
 export const lead =
@@ -121,6 +146,40 @@ export const notes = [
     ],
   },
 ];
+
+/**
+ * Draft answers assembled from the copy elsewhere on this page — worth a
+ * read-through before this goes live.
+ */
+export const faq = {
+  lead: "Questions we get asked.",
+  items: [
+    {
+      q: "How does the pay work?",
+      a: "You are paid for the hours you put into your project, at your rate, capped at $100 an hour. You choose between ten and forty hours a week, for the three months of the build phase.",
+    },
+    {
+      q: "Do I have to quit my job?",
+      a: "No. The build phase is remote and runs alongside your job — you decide how many hours to commit. The only in-person block is the first week, in London.",
+    },
+    {
+      q: "Do I need a project going in?",
+      a: "No. Week one exists to find it: mornings reading the field, afternoons letting a small group and field experts try to break your hypothesis. The problems list is where we think the gaps are, and off-list is fine.",
+    },
+    {
+      q: "Who directs the work?",
+      a: "Nobody. A weekly standup with three peers and one facilitator keeps the accountability tight, but the direction stays yours.",
+    },
+    {
+      q: "What happens after demo day?",
+      a: "Papers get routed to workshops and arXiv referrals, tools go to the open source community, and new orgs get introductions to funders. Projects that need more time can extend by two paid months.",
+    },
+    {
+      q: "Who is behind M3?",
+      a: "A collaboration between Constellation, Kairos and AISB. Anything this page does not answer: hello@m3.org.",
+    },
+  ],
+};
 
 export const footer = {
   headline: "Find a problem worth three months.",

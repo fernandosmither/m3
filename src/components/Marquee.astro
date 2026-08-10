@@ -6,7 +6,7 @@ import AffiliationLogo from "./AffiliationLogo.astro";
  * The track is duplicated once and translated by exactly -50%, so the loop is
  * seamless regardless of how many logos there are.
  */
-const track = [...affiliations.logos, ...affiliations.logos, ...affiliations.logos];
+const track = [...affiliations.logos];
 const loop = [...track, ...track];
 ---
 
@@ -15,15 +15,15 @@ const loop = [...track, ...track];
 
   <div class="marquee">
     <ul class="marquee__track" aria-hidden="true">
-      {loop.map((name) => (
+      {loop.map((logo) => (
         <li class="marquee__item">
-          <AffiliationLogo name={name} />
+          <AffiliationLogo name={logo.name} file={logo.file} />
         </li>
       ))}
     </ul>
   </div>
 
-  <p class="visually-hidden">{affiliations.logos.join(", ")}</p>
+  <p class="visually-hidden">{affiliations.logos.map((logo) => logo.name).join(", ")}</p>
 </section>
 
 <style>
@@ -62,15 +62,13 @@ const loop = [...track, ...track];
     margin: 0;
     padding: 0;
     list-style: none;
-    animation: marquee 44s linear infinite;
+    animation: marquee 80s linear infinite;
   }
 
   .marquee__item {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: clamp(8.5rem, 11vw, 10.75rem);
-    color: rgb(255 255 255 / 0.55);
   }
 
   @keyframes marquee {
