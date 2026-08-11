@@ -158,6 +158,10 @@ export const faq = {
       a: "You are paid for the hours you put into your project, at your rate, capped at $100 an hour. The build phase starts with one paid month; projects that need more time can extend by two more.",
     },
     {
+      q: "What does the first week cost me?",
+      a: "Nothing. We cover flights, hotel, food and anything else you need to be there. Your salary starts after that week, when the build phase begins.",
+    },
+    {
       q: "Do I have to quit my job?",
       a: "No. The build phase is remote and runs alongside your job, so you decide how many hours to commit. The only in-person block is the first week, in London.",
     },
