@@ -4,16 +4,15 @@ var __name = (target, value) => __defProp(target, "name", { value, configurable:
 // worker/index.js
 var API_HOST = "us.i.posthog.com";
 var ASSET_HOST = "us-assets.i.posthog.com";
+var PROXY_PREFIXES = ["/arc", "/ingest"];
 var worker_default = {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname.startsWith("/ingest/")) {
-      const isStatic = url.pathname.startsWith("/ingest/static/");
-      const host = isStatic ? ASSET_HOST : API_HOST;
-      const target = new URL(
-        url.pathname.replace(/^\/ingest/, "") + url.search,
-        `https://${host}`
-      );
+    const prefix = PROXY_PREFIXES.find((p) => url.pathname.startsWith(p + "/"));
+    if (prefix) {
+      const path = url.pathname.slice(prefix.length);
+      const host = path.startsWith("/static/") ? ASSET_HOST : API_HOST;
+      const target = new URL(path + url.search, `https://${host}`);
       const headers = new Headers(request.headers);
       const clientIp = request.headers.get("cf-connecting-ip");
       if (clientIp) headers.set("X-Forwarded-For", clientIp);
