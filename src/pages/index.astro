@@ -110,7 +110,11 @@ import Footer from "../components/Footer.astro";
       posthog.init("phc_p93wH4bLiqu5NUpD2HCKkUDY9r8Z8RJj8C7vtFYFz9Zb", {
         api_host: "https://m3fellowship.com/arc",
         ui_host: "https://us.posthog.com",
-        persistence: "memory",
+        // localStorage (not cookies) so session replay can persist its
+        // recording state — memory persistence silently disables replay.
+        // Still cookie-free; our privacy policy discloses local storage use.
+        persistence: "localStorage",
+        disable_cookie: true,
       });
     </script>
   </head>
