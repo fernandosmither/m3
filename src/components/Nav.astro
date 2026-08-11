@@ -139,7 +139,7 @@ import { nav } from "../data/m3";
         if (!reachedTarget && !reachedLastTarget) sync();
       };
 
-      // The pill follows commitment only — a click or the settled scroll
+      // The pill follows commitment only: a click or the settled scroll
       // position. It deliberately does not preview on hover or focus.
       for (const link of links) {
         link.addEventListener("click", () => {

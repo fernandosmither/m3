@@ -11,7 +11,7 @@ export const applyUrl =
 
 export const hero = {
   headline: "Move into AI security.",
-  sub: "A three-month, salary-matched fellowship for senior security people. No mentors. You set the direction.",
+  sub: "A three-month, salary-matched fellowship for senior security professionals.",
   ctaLabel: "Apply by Aug 14",
   ctaHref: applyUrl,
 };
@@ -52,11 +52,10 @@ export const stats = [
   { value: "1–3", unit: "months" },
   { value: "10", unit: "hrs/week" },
   { value: "$100", unit: "/hour cap" },
-  { value: "6", unit: "people" },
 ];
 
 /**
- * Draft week/month tags pending a real schedule — worth a read-through
+ * Draft week/month tags pending a real schedule; worth a read-through
  * before this goes live.
  */
 export const timeline = [
@@ -82,22 +81,22 @@ export const timeline = [
     id: "extension",
     title: "Extension",
     when: "months 2–3 · by invitation",
-    body: "Promising projects get two more financed months to keep going — same rate, same cadence — and the same routing onward when the work is ready.",
+    body: "Promising projects get two more financed months to keep going at the same rate and cadence, with the same routing onward when the work is ready.",
   },
 ];
 
 /**
- * Draft copy expanded from shorthand notes — worth a read-through before this
+ * Draft copy expanded from shorthand notes; worth a read-through before this
  * goes live.
  */
 export const personas = {
-  lead: "The three types of fellows we're looking for.",
+  lead: "M3 is designed for",
   items: [
     {
       index: "1",
       role: "The researcher",
-      summary: "You want to write the paper.",
-      body: "You have a question the field has not answered, and three months is enough to answer it properly rather than in the margins of another job.",
+      summary: "You push the frontier of AI Security.",
+      body: "You have a question the field has not answered, a tool AI Security needs, or a direction that needs to be explored.",
     },
     {
       index: "2",
@@ -108,11 +107,10 @@ export const personas = {
     {
       index: "3",
       role: "The field builder",
-      summary: "You want to bring more people in.",
+      summary: "You want to scale up AI Security.",
       body: "You have spent years inside the area and the bottleneck you see is people, not ideas. You want to build the thing that widens the door.",
     },
   ],
-  footnote: "Another project? We can host it.",
 };
 
 export const problems = {
@@ -149,7 +147,7 @@ export const notes = [
 ];
 
 /**
- * Draft answers assembled from the copy elsewhere on this page — worth a
+ * Draft answers assembled from the copy elsewhere on this page; worth a
  * read-through before this goes live.
  */
 export const faq = {
@@ -161,7 +159,7 @@ export const faq = {
     },
     {
       q: "Do I have to quit my job?",
-      a: "No. The build phase is remote and runs alongside your job — you decide how many hours to commit. The only in-person block is the first week, in London.",
+      a: "No. The build phase is remote and runs alongside your job, so you decide how many hours to commit. The only in-person block is the first week, in London.",
     },
     {
       q: "Do I need a project going in?",
@@ -191,7 +189,7 @@ export const footer = {
   ctaLabel: "Apply by Aug 14",
   ctaHref: applyUrl,
   facts: ["A week in London", "Three months remote", "Salary matched"],
-  legalPrefix: "© 2026 — A collaboration between",
+  legalPrefix: "© 2026 · A collaboration between",
   orgs: [
     { name: "Constellation", href: "https://constellation.org/" },
     { name: "Kairos", href: "https://kairos-project.org/" },

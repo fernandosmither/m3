@@ -37,7 +37,9 @@ const { backdrop = "svg" } = Astro.props;
        below true centre. */
     padding-block: clamp(7rem, 16vh, 10rem) clamp(3rem, 7vh, 4.5rem);
     background: var(--bg);
-    overflow: hidden;
+    /* Keep the constellation's off-canvas top visible so it follows the hero
+       into the rubber-band area on browsers with elastic overscroll. */
+    overflow: visible;
   }
 
   .hero__bg {

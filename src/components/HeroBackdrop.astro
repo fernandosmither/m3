@@ -40,7 +40,7 @@ function markerDots(r: number, a1: number, a2: number, step: number) {
   return out;
 }
 
-// Seeded LCG — same seed as the Figma build, so the scatter matches.
+// Seeded LCG with the same seed as the Figma build, so the scatter matches.
 let seed = 20260807;
 const rnd = () => ((seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296);
 
@@ -117,6 +117,8 @@ const dots = [...markerDots(360, 205, 336, 11.5), ...markerDots(690, 195, 346, 9
     inset: 0;
     width: 100%;
     height: 100%;
+    /* The generated outer rings continue above the SVG viewBox. */
+    overflow: visible;
     pointer-events: none;
   }
 </style>

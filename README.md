@@ -1,6 +1,6 @@
 # M3
 
-Landing page for M3 — a three-month, salary-matched fellowship for senior
+Landing page for M3, a three-month, salary-matched fellowship for senior
 security people moving into AI security.
 
 Live at [m3fellowship.com](https://m3fellowship.com), served by a Cloudflare
