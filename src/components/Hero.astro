@@ -2,7 +2,7 @@
 import HeroBackdrop from "./HeroBackdrop.astro";
 import AsciiBackdrop from "./AsciiBackdrop.astro";
 import Grain from "./Grain.astro";
-import { hero } from "../data/m3";
+import { hero, applicationsOpen, closedLabel, closedNote } from "../data/m3";
 
 interface Props {
   /** "ascii" swaps the vector constellation for its character-grid version. */
@@ -20,7 +20,14 @@ const { backdrop = "svg" } = Astro.props;
   <div class="hero__copy shell">
     <h1 class="hero__title">{hero.headline}</h1>
     <p class="hero__sub">{hero.sub}</p>
-    <a class="cta" href={hero.ctaHref} target="_blank" rel="noopener">{hero.ctaLabel}</a>
+    {applicationsOpen ? (
+      <a class="cta" href={hero.ctaHref} target="_blank" rel="noopener">{hero.ctaLabel}</a>
+    ) : (
+      <div class="closed">
+        <p class="cta cta--closed">{closedLabel}</p>
+        <p class="closed__note">{closedNote}</p>
+      </div>
+    )}
   </div>
 </section>
 
@@ -85,7 +92,27 @@ const { backdrop = "svg" } = Astro.props;
     transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease;
   }
 
-  .cta:hover {
+  .closed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  /* Same pill, but inert: no hover, dimmer border and ink. */
+  .cta--closed {
+    margin: 0;
+    border-color: rgb(255 255 255 / 0.14);
+    color: var(--ink-faint);
+    cursor: default;
+  }
+
+  .closed__note {
+    color: var(--ink-faint);
+    font-size: 0.9375rem;
+  }
+
+  a.cta:hover {
     border-color: rgb(255 255 255 / 0.45);
     background: rgb(255 255 255 / 0.05);
     color: #fff;

@@ -9,6 +9,16 @@ export const nav = [
 export const applyUrl =
   "https://airtable.com/apphv1q8pIb4a411d/pagICxIRB4MH1TmRA/form";
 
+/**
+ * Flip to true to reopen applications: the CTAs become links to applyUrl
+ * again and the JobPosting structured data comes back.
+ */
+export const applicationsOpen = false;
+
+/** Shown in place of the CTA once applications close. */
+export const closedLabel = "Applications closed";
+export const closedNote = "Cohort one is full. Stay tuned for the next one.";
+
 export const hero = {
   headline: "Move into AI security.",
   sub: "A three-month, salary-matched fellowship for senior security professionals.",

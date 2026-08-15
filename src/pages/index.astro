@@ -5,7 +5,7 @@ import "@fontsource/ibm-plex-mono/500.css";
 import "../styles/global.css";
 import newsreaderWoff2 from "@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url";
 import plexMonoWoff2 from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
-import { applyUrl } from "../data/m3";
+import { applyUrl, applicationsOpen } from "../data/m3";
 
 const structuredData = [
   {
@@ -48,7 +48,9 @@ const structuredData = [
     url: "https://m3fellowship.com/",
     directApply: false,
   },
-];
+  // Drop the JobPosting once applications close: an expired posting served as
+  // live is a Google Jobs violation, and the Organization entry stands alone.
+].filter((entry) => applicationsOpen || entry["@type"] !== "JobPosting");
 
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";

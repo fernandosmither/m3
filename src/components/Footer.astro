@@ -1,6 +1,6 @@
 ---
 import Grain from "./Grain.astro";
-import { footer } from "../data/m3";
+import { footer, applicationsOpen, closedLabel, closedNote } from "../data/m3";
 ---
 
 <footer class="footer" id="apply">
@@ -13,7 +13,14 @@ import { footer } from "../data/m3";
       <div class="panel__content">
         <h2 class="panel__title">{footer.headline}</h2>
 
-        <a class="apply" href={footer.ctaHref} target="_blank" rel="noopener">{footer.ctaLabel}</a>
+        {applicationsOpen ? (
+          <a class="apply" href={footer.ctaHref} target="_blank" rel="noopener">{footer.ctaLabel}</a>
+        ) : (
+          <>
+            <p class="apply apply--closed">{closedLabel}</p>
+            <p class="panel__note">{closedNote}</p>
+          </>
+        )}
       </div>
     </div>
 
@@ -98,7 +105,21 @@ import { footer } from "../data/m3";
     transition: background-color 0.18s ease, transform 0.18s ease;
   }
 
-  .apply:hover {
+  /* Same button shape, inert: no fill, no lift. */
+  .apply--closed {
+    margin: 0;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    background: none;
+    color: var(--ink-faint);
+    cursor: default;
+  }
+
+  .panel__note {
+    color: var(--ink-faint);
+    font-size: 0.9375rem;
+  }
+
+  a.apply:hover {
     background: #fff;
     transform: translateY(-1px);
   }
